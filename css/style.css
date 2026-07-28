@@ -63,16 +63,19 @@ nav a.navlink:hover, nav a.navlink:focus-visible { opacity: 1; }
 nav a.navlink[aria-current="page"] { opacity: 1; border-bottom: 1px solid var(--gold); padding-bottom: 3px; }
 nav a.navlink.nav-btn {
   opacity: 1;
-  border: 1px solid var(--gold);
-  padding: 8px 18px;
-  border-radius: 3px;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-nav a.navlink.nav-btn:hover, nav a.navlink.nav-btn:focus-visible {
   background: var(--gold);
   color: var(--ink-deep);
+  border: none;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
-nav a.navlink.nav-btn[aria-current="page"] { background: var(--gold); color: var(--ink-deep); border-bottom: 1px solid var(--gold); }
+nav a.navlink.nav-btn:hover, nav a.navlink.nav-btn:focus-visible {
+  background: var(--gold-bright);
+  transform: translateY(-1px);
+}
+nav a.navlink.nav-btn[aria-current="page"] { background: var(--gold-bright); }
 
 /* ---------------------------------------------------------
    PAGE HEADER — used on every interior page (not the hero)
@@ -323,6 +326,7 @@ main { position: relative; z-index: 1; }
   font-family: 'Fraunces', serif;
   font-size: 1.25rem;
 }
+.give-method .value.value-compact { font-size: 1.02rem; word-break: break-word; }
 .support-divider {
   border: none;
   border-top: 1px solid var(--line-pale-strong);
@@ -363,6 +367,72 @@ main { position: relative; z-index: 1; }
 .prayer-general .label { margin-bottom: 12px; }
 
 /* ---------------------------------------------------------
+   SUPPORT — icon nav + fine print
+   --------------------------------------------------------- */
+.support-icon-nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 56px;
+}
+.icon-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  padding: 22px 28px;
+  border: 1px solid var(--line-pale-strong);
+  border-radius: 4px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  min-width: 120px;
+}
+.icon-link:hover, .icon-link:focus-visible {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+.icon-link svg { width: 30px; height: 30px; }
+.icon-link svg circle, .icon-link svg path, .icon-link svg line { stroke: var(--gold-bright); }
+.icon-link span {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+.support-section { scroll-margin-top: 100px; margin-bottom: 56px; }
+.support-section h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+  color: var(--gold-bright);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(201, 162, 75, 0.35);
+}
+.support-section p {
+  font-weight: 300;
+  line-height: 1.8;
+  font-size: 1.02rem;
+  color: rgba(244,239,228,0.88);
+  margin-bottom: 18px;
+}
+.support-section ol {
+  margin: 0 0 18px 22px;
+  font-weight: 300;
+  line-height: 1.8;
+  font-size: 1.02rem;
+  color: rgba(244,239,228,0.88);
+}
+.support-section ol li { margin-bottom: 6px; }
+.fine-print {
+  font-size: 0.86rem;
+  line-height: 1.7;
+  color: rgba(168, 197, 224, 0.65);
+}
+
+/* ---------------------------------------------------------
    STORY
    --------------------------------------------------------- */
 .story-body {
@@ -386,6 +456,38 @@ main { position: relative; z-index: 1; }
 .story-body p { border-left: 2px solid rgba(201, 162, 75, 0.4); padding-left: 20px; }
 .story-body .placeholder { padding: 28px 24px; margin: 10px 0 30px; border-left: none; }
 .story-body em { color: var(--gold-bright); font-style: italic; }
+
+/* ---------------------------------------------------------
+   STORY — Basic Facts grid
+   --------------------------------------------------------- */
+.fact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin: 10px 0 50px;
+}
+.fact-card {
+  border: 1px solid var(--line-pale-strong);
+  border-left: 2px solid var(--gold);
+  padding: 20px 22px;
+  padding-left: 20px;
+}
+.fact-card .label { margin-bottom: 8px; }
+.fact-card .value {
+  font-family: 'Fraunces', serif;
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+.fact-card.wide {
+  grid-column: 1 / -1;
+}
+.fact-card.wide .value {
+  font-family: 'Spectral', serif;
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(244,239,228,0.85);
+}
 
 /* ---------------------------------------------------------
    FLOATING SIGNUP BUTTON — persistent, bottom right
@@ -549,6 +651,10 @@ footer {
   }
 
   .give-methods { grid-template-columns: 1fr; }
+  .fact-grid { grid-template-columns: 1fr; }
+  .support-icon-nav { gap: 12px; }
+  .icon-link { padding: 16px 18px; min-width: 96px; }
+  .support-section { scroll-margin-top: 90px; }
 
   .story-body, .support-body, .log-list { padding-left: 6vw; padding-right: 6vw; }
   .story-body p { padding-left: 14px; }

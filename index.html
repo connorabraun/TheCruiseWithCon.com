@@ -44,37 +44,21 @@
   .coord-2 { top: 20%; right: 9%; animation-delay: 2.7s; }
   .coord-3 { bottom: 16%; left: 10%; animation-delay: 3s; }
   .coord-4 { bottom: 22%; right: 7%; animation-delay: 3.3s; }
-  .voyage-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .spiral-path {
-    fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-linecap: round;
-    stroke-dasharray: 2200; stroke-dashoffset: 2200;
-    filter: drop-shadow(0 0 3px rgba(201,162,75,0.5));
-    animation: draw 3.4s cubic-bezier(0.65, 0, 0.35, 1) forwards 0.6s;
-  }
-  @keyframes draw { to { stroke-dashoffset: 0; } }
-  .hero-content { position: relative; z-index: 5; opacity: 0; animation: riseIn 1.4s ease forwards 3.6s; }
+  .coord a { color: inherit; text-decoration: underline dotted; text-underline-offset: 3px; }
+  .coord a:hover, .coord a:focus-visible { color: var(--gold-bright); }
+  .hero-content { position: relative; z-index: 5; opacity: 0; animation: riseIn 1.4s ease forwards 1.4s; }
   @keyframes riseIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-  .eyebrow {
-    font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.28em;
-    text-transform: uppercase; color: var(--gold-bright); margin-bottom: 22px;
+  .welcome-blurb {
+    max-width: 620px; font-weight: 300; font-family: 'Spectral', serif;
+    font-size: clamp(1.05rem, 2vw, 1.3rem); line-height: 1.85; color: rgba(244, 239, 228, 0.9);
   }
-  h1 {
-    font-family: 'Fraunces', serif; font-weight: 500; font-optical-sizing: auto;
-    font-size: clamp(2.6rem, 8vw, 6rem); line-height: 0.98; letter-spacing: -0.01em; color: var(--paper);
-  }
-  h1 em { font-style: italic; font-weight: 300; color: var(--gold-bright); }
-  .scripture {
-    max-width: 520px; margin: 34px auto 0; font-style: italic; font-weight: 300;
-    font-size: clamp(0.95rem, 1.6vw, 1.15rem); line-height: 1.7; color: rgba(244, 239, 228, 0.82);
-  }
-  .scripture cite { display: block; margin-top: 10px; font-style: normal; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: var(--gold); }
   .scroll-cue {
     position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
     font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
     color: var(--line); display: flex; flex-direction: column; align-items: center; gap: 10px;
-    opacity: 0; animation: fadeIn 1s ease forwards 4.6s;
+    opacity: 0; animation: fadeIn 1s ease forwards 2.4s;
   }
-  .scroll-cue .stem { width: 1px; height: 34px; background: linear-gradient(var(--gold), transparent); animation: stemPulse 2.2s ease-in-out infinite 5.2s; }
+  .scroll-cue .stem { width: 1px; height: 34px; background: linear-gradient(var(--gold), transparent); animation: stemPulse 2.2s ease-in-out infinite 3s; }
   @keyframes stemPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
 </style>
 </head>
@@ -93,40 +77,16 @@
 <section class="hero">
   <div class="grid-bg"></div>
   <span class="coord coord-1">5°40'N, 0°00'W</span>
-  <span class="coord coord-2">August 2026 &ndash; June 2027</span>
+  <span class="coord coord-2">8.22.2026&ndash;6.16.2027</span>
   <span class="coord coord-3">MercyShips.org</span>
-  <span class="coord coord-4">GLOBAL MERCY</span>
-
-  <svg class="voyage-svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
-    <path class="spiral-path" d="M 630 470
-      C 700 420, 760 430, 790 480
-      C 820 530, 800 580, 740 590
-      C 660 600, 610 555, 640 500
-      C 665 452, 730 440, 770 470
-      C 815 503, 810 560, 760 585
-      C 690 618, 600 590, 590 520
-      C 582 465, 630 405, 700 390
-      C 800 368, 900 400, 950 300
-      C 985 232, 1010 150, 1060 90"/>
-  </svg>
+  <span class="coord coord-4"><a href="https://www.marinetraffic.com/ais/details/ships/imo:9726499" target="_blank" rel="noopener">MV GLOBAL MERCY 9726499</a></span>
 
   <div class="hero-content">
-    <h1>The <em>Cruise</em><br>With Con</h1>
-    <p class="scripture">
-      "He maketh the storm a calm, so that the waves thereof are still. Then are they glad because they be quiet; so he bringeth them unto their desired haven."
-      <cite>Psalm 107:29&ndash;30</cite>
-    </p>
+    <p class="welcome-blurb">Thank you for taking interest in my year long mission to serve the people of Ghana with Mercy Ships. I will be using this site as a platform to document the journey, to reflect on what I am learning, to stay in touch with those who are supporting me, and to hopefully inspire others with the works of love that are happening in our world.</p>
   </div>
 </section>
 
 <main>
-  <section class="about-line">
-    <p style="padding: 24px 0;">Thank you for taking the time to follow along with my year of service aboard the Global Mercy.</p>
-    <div class="placeholder" data-placeholder="Add your NIV verse here — 1 Peter 4:10" style="max-width: 520px; margin: 0 auto 24px; padding: 20px 24px; font-style: italic; font-weight: 300; font-size: 0.95rem; color: rgba(244,239,228,0.6);">
-      [Paste the 1 Peter 4:10 (NIV) verse here.]
-    </div>
-  </section>
-
   <section class="latest-log">
     <span class="label">Latest From The Ship Log</span>
     <div id="latest-post-slot">
@@ -141,7 +101,7 @@
 </footer>
 
 <!-- Floating email signup — persistent on every page -->
-<button class="signup-btn" id="signup-btn" aria-haspopup="dialog">&#9993; Get Updates</button>
+<button class="signup-btn" id="signup-btn" aria-haspopup="dialog">&#9993; Get Notifications</button>
 <div class="signup-modal" id="signup-modal" role="dialog" aria-modal="true" aria-labelledby="signup-title">
   <div class="modal-card">
     <button class="close-modal" aria-label="Close">&times;</button>
