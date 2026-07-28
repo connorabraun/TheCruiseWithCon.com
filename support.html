@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support — TheCruiseWithCon.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Spectral:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav>
+  <a class="wordmark" href="index.html">TheCruiseWithCon.com</a>
+  <ul>
+    <li><a class="navlink" href="log.html">Ship Log</a></li>
+    <li><a class="navlink" href="photos.html">Photographs</a></li>
+    <li><a class="navlink" href="story.html">About</a></li>
+    <li><a class="navlink nav-btn" href="support.html" aria-current="page">Support</a></li>
+  </ul>
+</nav>
+
+<header class="page-header">
+  <h1>Ways to <em>Support</em> the Mission</h1>
+</header>
+
+<main class="support-body">
+  <p class="intro placeholder" data-placeholder="Placeholder — your framing paragraph">
+    [Two or three honest sentences here on what this year costs you personally — flights, the mission fee, gear — and why giving toward that, rather than toward Mercy Ships' general fund, actually helps. Note plainly that gifts here aren't tax-deductible since they're personal, not charitable.]
+  </p>
+
+  <div class="give-methods">
+    <div class="give-method">
+      <span class="label">Zelle</span>
+      <div class="value">480-278-1489</div>
+    </div>
+    <div class="give-method">
+      <span class="label">Venmo</span>
+      <div class="value">@ConnorBraun</div>
+    </div>
+  </div>
+
+  <hr class="support-divider">
+
+  <div class="prayer-general">
+    <span class="label">Prayer</span>
+    <p class="placeholder" data-placeholder="Add your general prayer requests here" style="padding: 16px 18px; font-weight: 300; line-height: 1.75; color: rgba(244,239,228,0.7);">
+      [General, ongoing prayer requests for the year go here — separate from the specific ones tied to individual Ship Log entries.]
+    </p>
+  </div>
+
+  <hr class="support-divider">
+
+  <p class="substack-pointer">
+    Another way to support me is to subscribe to and engage with my work on Substack. I'm an aspiring writer, and that's where I'll be posting my work going forward.
+  </p>
+  <a href="https://substack.com/@cabraun?r=7fio84&utm_campaign=profile&utm_medium=profile-page" class="substack-btn" target="_blank" rel="noopener">Read on Substack &rarr;</a>
+</main>
+
+<footer>
+  <span>TheCruiseWithCon.com</span>
+  <span>&copy; 2026</span>
+</footer>
+
+<button class="signup-btn" id="signup-btn" aria-haspopup="dialog">&#9993; Get Updates</button>
+<div class="signup-modal" id="signup-modal" role="dialog" aria-modal="true" aria-labelledby="signup-title">
+  <div class="modal-card">
+    <button class="close-modal" aria-label="Close">&times;</button>
+    <h3 id="signup-title">Follow the voyage</h3>
+    <p>Receive email updates when new posts are added to the Ship Log, along with any prayer requests.</p>
+    <form class="placeholder" data-placeholder="Wire to Netlify Forms" name="signup" method="POST" data-netlify="true">
+      <input type="email" name="email" placeholder="you@email.com" required>
+      <button type="submit">Notify Me</button>
+    </form>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/site.js"></script>
+</body>
+</html>
