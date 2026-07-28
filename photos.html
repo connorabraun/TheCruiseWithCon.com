@@ -44,10 +44,14 @@
     <button class="close-modal" aria-label="Close">&times;</button>
     <h3 id="signup-title">Follow the voyage</h3>
     <p>Receive email updates when new posts are added to the Ship Log, along with any prayer requests.</p>
-    <form class="placeholder" data-placeholder="Wire to Netlify Forms" name="signup" method="POST" data-netlify="true">
+    <form id="signup-form" name="signup" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="signup">
+      <p class="hp-field"><label>Don't fill this out if you're human: <input name="bot-field"></label></p>
       <input type="email" name="email" placeholder="you@email.com" required>
       <button type="submit">Notify Me</button>
     </form>
+    <p class="form-success" id="form-success">You're on the list &mdash; thank you! You'll hear from me when there's news from the ship.</p>
+    <p class="form-error" id="form-error">Something went wrong. Please try again, or email me directly.</p>
   </div>
 </div>
 

@@ -482,6 +482,16 @@ main { position: relative; z-index: 1; }
   opacity: 0.6;
 }
 .signup-modal .close-modal:hover { opacity: 1; }
+.hp-field { position: absolute; left: -9999px; }
+.form-success, .form-error {
+  display: none;
+  font-weight: 300;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.form-success.show, .form-error.show { display: block; }
+.form-success { color: var(--gold-bright); }
+.form-error { color: #e8a874; margin-top: 10px; }
 
 /* ---------------------------------------------------------
    FOOTER
@@ -498,4 +508,50 @@ footer {
   letter-spacing: 0.08em;
   color: var(--line);
   text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------
+   MOBILE — phones and small tablets
+   --------------------------------------------------------- */
+@media (max-width: 700px) {
+  nav {
+    flex-wrap: wrap;
+    row-gap: 12px;
+    padding: 16px 6vw;
+  }
+  nav .wordmark { flex: 1 0 100%; font-size: 19px; }
+  nav ul { gap: 14px 20px; flex-wrap: wrap; font-size: 10.5px; }
+  nav a.navlink.nav-btn { padding: 6px 14px; }
+
+  .page-header { padding: 150px 6vw 60px; }
+  .page-header h1 { font-size: clamp(1.9rem, 8vw, 3rem); }
+
+  .coord { font-size: 9.5px; }
+  .coord-1 { top: 22%; }
+  .coord-2 { top: 27%; }
+  .coord-3 { bottom: 22%; }
+  .coord-4 { bottom: 27%; }
+
+  .signup-btn {
+    bottom: 18px;
+    right: 18px;
+    padding: 16px 22px;
+    font-size: 12px;
+    gap: 8px;
+  }
+
+  .signup-modal .modal-card { padding: 30px 22px; }
+
+  .photo-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 6vh 6vw 10vh;
+  }
+
+  .give-methods { grid-template-columns: 1fr; }
+
+  .story-body, .support-body, .log-list { padding-left: 6vw; padding-right: 6vw; }
+  .story-body p { padding-left: 14px; }
+
+  footer { padding: 30px 6vw; font-size: 10px; }
 }

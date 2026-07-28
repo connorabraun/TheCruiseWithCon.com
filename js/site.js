@@ -83,14 +83,40 @@ function renderPhotoGrid() {
 }
 
 /* ---- Floating signup button + modal (shared across all pages) ---- */
+function encodeFormData(form) {
+  return new URLSearchParams(new FormData(form)).toString();
+}
+
 function initSignup() {
   const btn = document.getElementById("signup-btn");
   const modal = document.getElementById("signup-modal");
   if (!btn || !modal) return;
   const close = modal.querySelector(".close-modal");
+  const form = document.getElementById("signup-form");
+  const successMsg = document.getElementById("form-success");
+  const errorMsg = document.getElementById("form-error");
+
   btn.addEventListener("click", () => modal.classList.add("open"));
   close.addEventListener("click", () => modal.classList.remove("open"));
   modal.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("open"); });
+
+  if (!form) return;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    errorMsg.classList.remove("show");
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encodeFormData(form),
+    })
+      .then(() => {
+        form.style.display = "none";
+        successMsg.classList.add("show");
+      })
+      .catch(() => {
+        errorMsg.classList.add("show");
+      });
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
