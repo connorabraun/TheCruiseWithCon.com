@@ -8,6 +8,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Spectral:ital,wght@0,300;0,400;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
   /* ---- Home-only: hero ---- */
   .hero {
@@ -78,7 +83,7 @@
   <div class="grid-bg"></div>
   <span class="coord coord-1">5°40'N, 0°00'W</span>
   <span class="coord coord-2">8.22.2026&ndash;6.16.2027</span>
-  <span class="coord coord-3">MercyShips.org</span>
+  <span class="coord coord-3"><a href="https://www.mercyships.org" target="_blank" rel="noopener">MercyShips.org</a></span>
   <span class="coord coord-4"><a href="https://www.marinetraffic.com/ais/details/ships/imo:9726499" target="_blank" rel="noopener">MV GLOBAL MERCY 9726499</a></span>
 
   <div class="hero-content">
@@ -106,7 +111,7 @@
   <div class="modal-card">
     <button class="close-modal" aria-label="Close">&times;</button>
     <h3 id="signup-title">Follow the voyage</h3>
-    <p>Receive email updates when new posts are added to the Ship Log, along with any prayer requests.</p>
+    <p id="modal-intro">Receive email updates when new posts are added to the Ship Log, along with any prayer requests.</p>
     <form id="signup-form" name="signup" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="signup">
       <p class="hp-field"><label>Don't fill this out if you're human: <input name="bot-field"></label></p>

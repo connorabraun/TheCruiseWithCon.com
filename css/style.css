@@ -374,25 +374,27 @@ main { position: relative; z-index: 1; }
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
-  margin-bottom: 56px;
+  margin: 24px 0 64px;
 }
 .icon-link {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   text-decoration: none;
-  padding: 22px 28px;
+  padding: 28px 34px;
   border: 1px solid var(--line-pale-strong);
   border-radius: 4px;
   transition: border-color 0.2s ease, transform 0.2s ease;
-  min-width: 120px;
+  min-width: 130px;
+  cursor: pointer;
 }
 .icon-link:hover, .icon-link:focus-visible {
   border-color: var(--gold);
   transform: translateY(-2px);
 }
-.icon-link svg { width: 30px; height: 30px; }
+.icon-link svg { width: 30px; height: 30px; pointer-events: none; }
 .icon-link svg circle, .icon-link svg path, .icon-link svg line { stroke: var(--gold-bright); }
 .icon-link span {
   font-family: 'Space Mono', monospace;
@@ -400,6 +402,7 @@ main { position: relative; z-index: 1; }
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--paper);
+  pointer-events: none;
 }
 .support-section { scroll-margin-top: 100px; margin-bottom: 56px; }
 .support-section h2 {
@@ -427,9 +430,9 @@ main { position: relative; z-index: 1; }
 }
 .support-section ol li { margin-bottom: 6px; }
 .fine-print {
-  font-size: 0.86rem;
+  font-size: 0.8rem;
   line-height: 1.7;
-  color: rgba(168, 197, 224, 0.65);
+  color: rgba(232, 200, 116, 0.75);
 }
 
 /* ---------------------------------------------------------
@@ -478,6 +481,8 @@ main { position: relative; z-index: 1; }
   font-size: 1.1rem;
   line-height: 1.4;
 }
+.fact-card .value a { text-decoration: underline dotted; text-underline-offset: 3px; }
+.fact-card .value a:hover, .fact-card .value a:focus-visible { color: var(--gold-bright); }
 .fact-card.wide {
   grid-column: 1 / -1;
 }
@@ -544,6 +549,7 @@ main { position: relative; z-index: 1; }
   font-size: 1.5rem;
   margin-bottom: 12px;
 }
+.signup-modal h3.success-title { color: var(--gold-bright); }
 .signup-modal p {
   font-weight: 300;
   font-size: 0.95rem;

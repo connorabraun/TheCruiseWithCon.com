@@ -93,6 +93,8 @@ function initSignup() {
   if (!btn || !modal) return;
   const close = modal.querySelector(".close-modal");
   const form = document.getElementById("signup-form");
+  const title = document.getElementById("signup-title");
+  const intro = document.getElementById("modal-intro");
   const successMsg = document.getElementById("form-success");
   const errorMsg = document.getElementById("form-error");
 
@@ -110,6 +112,9 @@ function initSignup() {
       body: encodeFormData(form),
     })
       .then(() => {
+        title.textContent = "Success!";
+        title.classList.add("success-title");
+        intro.style.display = "none";
         form.style.display = "none";
         successMsg.classList.add("show");
       })
