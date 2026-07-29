@@ -431,10 +431,11 @@ main { position: relative; z-index: 1; }
   color: var(--gold-bright);
 }
 .support-section ol li { margin-bottom: 6px; }
-.fine-print {
+.fine-print,
+p.fine-print {
   font-size: 0.8rem;
   line-height: 1.7;
-  color: var(--gold-bright);
+  color: var(--gold-bright) !important;
 }
 
 /* ---------------------------------------------------------
