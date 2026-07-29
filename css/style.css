@@ -384,24 +384,25 @@ main { position: relative; z-index: 1; }
   gap: 10px;
   text-decoration: none;
   padding: 28px 34px;
-  border: 1px solid var(--line-pale-strong);
+  background: var(--gold);
   border-radius: 4px;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
   min-width: 130px;
   cursor: pointer;
 }
 .icon-link:hover, .icon-link:focus-visible {
-  border-color: var(--gold);
+  background: var(--gold-bright);
   transform: translateY(-2px);
 }
 .icon-link svg { width: 30px; height: 30px; pointer-events: none; }
-.icon-link svg circle, .icon-link svg path, .icon-link svg line { stroke: var(--gold-bright); }
+.icon-link svg circle, .icon-link svg path, .icon-link svg line { stroke: var(--ink-deep); }
 .icon-link span {
   font-family: 'Space Mono', monospace;
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--paper);
+  color: var(--ink-deep);
+  font-weight: 700;
   pointer-events: none;
 }
 .support-section { scroll-margin-top: 100px; margin-bottom: 56px; }
@@ -421,18 +422,19 @@ main { position: relative; z-index: 1; }
   color: rgba(244,239,228,0.88);
   margin-bottom: 18px;
 }
+.support-section em { color: var(--gold-bright); font-style: normal; }
 .support-section ol {
   margin: 0 0 18px 22px;
   font-weight: 300;
   line-height: 1.8;
   font-size: 1.02rem;
-  color: rgba(244,239,228,0.88);
+  color: var(--gold-bright);
 }
 .support-section ol li { margin-bottom: 6px; }
 .fine-print {
   font-size: 0.8rem;
   line-height: 1.7;
-  color: rgba(232, 200, 116, 0.75);
+  color: var(--gold-bright);
 }
 
 /* ---------------------------------------------------------
