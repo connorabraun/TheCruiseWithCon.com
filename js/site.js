@@ -208,10 +208,27 @@ function initSignup() {
   });
 }
 
+/* ---- Fade the floating signup button out before it can overlap the footer ---- */
+function initSignupFooterAvoidance() {
+  const btn = document.getElementById("signup-btn");
+  const footer = document.querySelector("footer");
+  if (!btn || !footer || !("IntersectionObserver" in window)) return;
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        btn.classList.toggle("near-footer", entry.isIntersecting);
+      });
+    },
+    { rootMargin: "0px 0px -40px 0px" }
+  );
+  observer.observe(footer);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderHomeLatest();
   renderBookshelf();
   renderPhotoGrid();
   initBookOverlay();
   initSignup();
+  initSignupFooterAvoidance();
 });

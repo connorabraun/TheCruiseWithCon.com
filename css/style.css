@@ -25,6 +25,18 @@ body {
   overflow-x: hidden;
 }
 
+/* ---- Film-grain texture: keeps flat dark sections from feeling sterile ---- */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
@@ -122,6 +134,13 @@ nav a.navlink.nav-btn[aria-current="page"] { background: var(--gold-bright); }
   line-height: 1.7;
   color: rgba(244,239,228,0.82);
 }
+.page-header .eyebrow, .page-header h1, .page-header .dek {
+  opacity: 0;
+  animation: pageRise 0.9s ease forwards;
+}
+.page-header h1 { animation-delay: 0.08s; }
+.page-header .dek { animation-delay: 0.2s; }
+@keyframes pageRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
 main { position: relative; z-index: 1; }
 
@@ -655,24 +674,48 @@ p.fine-print {
   z-index: 30;
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 26px 40px;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  overflow: hidden;
   background: var(--gold);
   color: var(--ink-deep);
   border: none;
   border-radius: 999px;
   font-family: 'Space Mono', monospace;
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s ease, background 0.2s ease, opacity 0.3s ease;
 }
 .signup-btn:hover, .signup-btn:focus-visible {
+  width: 232px;
   background: var(--gold-bright);
   transform: translateY(-2px);
+}
+.signup-btn .btn-icon {
+  flex: 0 0 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+}
+.signup-btn .btn-label {
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.signup-btn:hover .btn-label, .signup-btn:focus-visible .btn-label {
+  opacity: 1;
+  transition: opacity 0.25s ease 0.12s;
+}
+.signup-btn.near-footer {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
 }
 
 .signup-modal {
@@ -794,10 +837,13 @@ footer {
   .signup-btn {
     bottom: 18px;
     right: 18px;
-    padding: 16px 22px;
-    font-size: 12px;
-    gap: 8px;
+    width: 50px;
+    height: 50px;
   }
+  .signup-btn:hover, .signup-btn:focus-visible {
+    width: 50px;
+  }
+  .signup-btn .btn-icon { flex-basis: 50px; }
 
   .signup-modal .modal-card { padding: 30px 22px; }
 
