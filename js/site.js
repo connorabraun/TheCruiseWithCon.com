@@ -83,7 +83,7 @@ function renderBookPageContent(post, num) {
 
   const featureBlock = feature
     ? `<a class="feature-photo" href="photos.html">
-        <span class="frame"><img src="${feature.src}" alt="${feature.caption}" loading="lazy"></span>
+        <img src="${feature.src}" alt="${feature.caption}" loading="lazy">
         <span class="feature-caption">${feature.caption}</span>
       </a>`
     : "";
