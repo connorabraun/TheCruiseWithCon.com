@@ -14,6 +14,14 @@ function formatDate(dateStr) {
   return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
 }
 
+function formatDateNumeric(dateStr) {
+  const d = new Date(dateStr + "T00:00:00");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  const yy = String(d.getFullYear()).slice(-2);
+  return `${mm}.${dd}.${yy}`;
+}
+
 /* ---- Home: latest entry teaser ---- */
 function renderHomeLatest() {
   const slot = document.getElementById("latest-post-slot");
@@ -31,37 +39,47 @@ function renderHomeLatest() {
   `;
 }
 
-/* ---- The Log: bookshelf ---- */
+/* ---- The Log: a stacked pile of books, newest on top ---- */
 const SPINE_COLORS = ["#0a1930", "#5c2a2a", "#233d2e", "#142842", "#4a3520"];
 const SPINE_ROTATIONS = [-2, 1.5, -1, 2, -1.5, 1];
+const SLAB_TILTS = [-1.1, 0.8, -0.6, 1.3, -1.6, 0.5, -0.9, 1.1];
 
 function chronoPosts() {
   return [...posts].sort((a, b) => new Date(a.date) - new Date(b.date));
 }
 
-function renderBookshelf() {
-  const shelf = document.getElementById("bookshelf");
-  if (!shelf) return;
-  const all = chronoPosts();
-  if (all.length === 0) {
-    shelf.innerHTML = `<p style="opacity:0.6; padding-bottom: 20px;">There are no entries yet. The journey begins August 22, 2026.</p>`;
+function renderBookStack() {
+  const stack = document.getElementById("book-stack");
+  if (!stack) return;
+  const chrono = chronoPosts();
+  if (chrono.length === 0) {
+    stack.innerHTML = `<p style="opacity:0.6; padding-bottom: 20px;">There are no entries yet. The journey begins August 22, 2026.</p>`;
     return;
   }
-  shelf.innerHTML = all.map((post, i) => {
-    const color = SPINE_COLORS[i % SPINE_COLORS.length];
-    const heightVariance = 220 + (i % 3) * 14;
-    const delay = (i * 0.06).toFixed(2);
+  const newestFirst = [...chrono].reverse();
+  stack.innerHTML = newestFirst.map((post, i) => {
+    const chronoIndex = chrono.length - 1 - i;
+    const num = String(chronoIndex + 1).padStart(2, "0");
+    const color = SPINE_COLORS[chronoIndex % SPINE_COLORS.length];
+    const tilt = SLAB_TILTS[i % SLAB_TILTS.length];
+    const delay = (i * 0.05).toFixed(2);
+    const marginTop = i === 0 ? "0px" : "-14px";
+    const z = newestFirst.length - i;
     return `
-      <button class="book-spine" data-slug="${post.slug}"
-        style="background:${color}; height:${heightVariance}px; animation-delay:${delay}s;"
+      <button class="book-slab" data-slug="${post.slug}"
+        style="background:${color}; --tilt:${tilt}deg; --delay:${delay}s; margin-top:${marginTop}; z-index:${z};"
         aria-haspopup="dialog" aria-label="Open entry: ${post.title}, ${formatDate(post.date)}">
-        <span class="spine-glint"></span>
-        <span class="spine-date">${formatDate(post.date)}</span>
+        <span class="slab-pages" aria-hidden="true"></span>
+        <span class="slab-face">
+          <span class="slab-num">N&deg; ${num}</span>
+          <span class="slab-date">${formatDateNumeric(post.date)}</span>
+          <span class="slab-title">${post.title}</span>
+        </span>
       </button>
     `;
   }).join("");
 
-  shelf.querySelectorAll(".book-spine").forEach(btn => {
+  stack.querySelectorAll(".book-slab").forEach(btn => {
     btn.addEventListener("click", () => openBook(btn.dataset.slug));
   });
 }
@@ -170,25 +188,84 @@ function initBookOverlay() {
 }
 
 /* ---- Photographs: every photo, as polaroids paired back to its entry ---- */
+let lightboxPhotos = [];
+
 function renderPhotoGrid() {
   const grid = document.getElementById("photo-grid");
   if (!grid) return;
   const all = sortedPosts();
   const cards = [];
+  lightboxPhotos = [];
   let i = 0;
   all.forEach(post => {
     (post.photos || []).forEach(photo => {
       const rot = SPINE_ROTATIONS[i % SPINE_ROTATIONS.length];
+      const index = i;
       i++;
+      lightboxPhotos.push({ src: photo.src, caption: photo.caption, postTitle: post.title, postSlug: post.slug });
       cards.push(`
-        <a class="polaroid" href="log.html#${post.slug}" style="transform: rotate(${rot}deg);">
+        <button class="polaroid" type="button" data-index="${index}" style="transform: rotate(${rot}deg);">
           <img src="${photo.src}" alt="${photo.caption}" loading="lazy">
           <div class="caption">${photo.caption}<span class="from-post">From: ${post.title}</span></div>
-        </a>
+        </button>
       `);
     });
   });
   grid.innerHTML = cards.length ? cards.join("") : `<p style="opacity:0.6">There are no photos yet.</p>`;
+
+  grid.querySelectorAll(".polaroid").forEach(btn => {
+    btn.addEventListener("click", () => openLightbox(Number(btn.dataset.index)));
+  });
+}
+
+let lightboxIndex = 0;
+
+function showLightboxPhoto(index) {
+  const photo = lightboxPhotos[index];
+  if (!photo) return;
+  lightboxIndex = index;
+  document.getElementById("lightbox-img").src = photo.src;
+  document.getElementById("lightbox-img").alt = photo.caption;
+  document.getElementById("lightbox-caption").textContent = photo.caption;
+  const source = document.getElementById("lightbox-source");
+  source.href = `log.html#${photo.postSlug}`;
+  source.textContent = `From: ${photo.postTitle} →`;
+}
+
+function openLightbox(index) {
+  const overlay = document.getElementById("lightbox");
+  if (!overlay) return;
+  showLightboxPhoto(index);
+  overlay.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  const overlay = document.getElementById("lightbox");
+  if (!overlay) return;
+  overlay.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+function lightboxStep(delta) {
+  if (!lightboxPhotos.length) return;
+  const next = (lightboxIndex + delta + lightboxPhotos.length) % lightboxPhotos.length;
+  showLightboxPhoto(next);
+}
+
+function initLightbox() {
+  const overlay = document.getElementById("lightbox");
+  if (!overlay) return;
+  document.getElementById("lightbox-close").addEventListener("click", closeLightbox);
+  document.getElementById("lightbox-prev").addEventListener("click", () => lightboxStep(-1));
+  document.getElementById("lightbox-next").addEventListener("click", () => lightboxStep(1));
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) closeLightbox(); });
+  document.addEventListener("keydown", (e) => {
+    if (!overlay.classList.contains("open")) return;
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowLeft") lightboxStep(-1);
+    if (e.key === "ArrowRight") lightboxStep(1);
+  });
 }
 
 /* ---- Floating signup button + modal (shared across all pages) ---- */
@@ -251,9 +328,10 @@ function initSignupFooterAvoidance() {
 
 document.addEventListener("DOMContentLoaded", () => {
   renderHomeLatest();
-  renderBookshelf();
+  renderBookStack();
   renderPhotoGrid();
   initBookOverlay();
+  initLightbox();
   initSignup();
   initSignupFooterAvoidance();
 });
