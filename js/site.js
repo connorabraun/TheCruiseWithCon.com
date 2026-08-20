@@ -31,51 +31,135 @@ function renderHomeLatest() {
   `;
 }
 
-/* ---- The Log: full chronological list ---- */
-function renderLogList() {
-  const container = document.getElementById("log-list");
-  if (!container) return;
-  const all = sortedPosts();
-  if (all.length === 0) {
-    container.innerHTML = `<p style="opacity:0.6">There are no entries yet. The journey begins August 22, 2026.</p>`;
-    return;
-  }
-  container.innerHTML = all.map(post => `
-    <article class="log-entry" id="${post.slug}">
-      <div class="post-date">${formatDate(post.date)}</div>
-      <h2><a href="#${post.slug}">${post.title}</a></h2>
-      <p class="excerpt">${post.excerpt}</p>
-      ${post.photos && post.photos.length
-        ? `<a class="photo-count" href="photos.html">&mdash; ${post.photos.length} photo${post.photos.length > 1 ? "s" : ""} from this entry &rarr;</a>`
-        : ""}
-      ${post.prayerRequests && post.prayerRequests.length
-        ? `<div class="prayer-note">
-             <strong>If you don't have time to read, consider praying for:</strong><br>
-             ${post.prayerRequests.join(" &middot; ")}
-           </div>`
-        : ""}
-    </article>
-  `).join("");
+/* ---- The Log: bookshelf ---- */
+const SPINE_COLORS = ["#0a1930", "#5c2a2a", "#233d2e", "#142842", "#4a3520"];
+const SPINE_ROTATIONS = [-2, 1.5, -1, 2, -1.5, 1];
+
+function chronoPosts() {
+  return [...posts].sort((a, b) => new Date(a.date) - new Date(b.date));
 }
 
-/* ---- Photographs: every photo, paired back to its entry ---- */
+function renderBookshelf() {
+  const shelf = document.getElementById("bookshelf");
+  if (!shelf) return;
+  const all = chronoPosts();
+  if (all.length === 0) {
+    shelf.innerHTML = `<p style="opacity:0.6; padding-bottom: 20px;">There are no entries yet. The journey begins August 22, 2026.</p>`;
+    return;
+  }
+  shelf.innerHTML = all.map((post, i) => {
+    const color = SPINE_COLORS[i % SPINE_COLORS.length];
+    const heightVariance = 220 + (i % 3) * 14;
+    return `
+      <button class="book-spine" data-slug="${post.slug}"
+        style="background:${color}; height:${heightVariance}px;"
+        aria-haspopup="dialog" aria-label="Open entry: ${post.title}, ${formatDate(post.date)}">
+        <span class="spine-glint"></span>
+        <span class="spine-date">${formatDate(post.date)}</span>
+      </button>
+    `;
+  }).join("");
+
+  shelf.querySelectorAll(".book-spine").forEach(btn => {
+    btn.addEventListener("click", () => openBook(btn.dataset.slug));
+  });
+}
+
+function renderBookPageContent(post) {
+  const bodyParas = (post.body && post.body.length ? post.body : [post.excerpt])
+    .map(p => `<p>${p}</p>`).join("");
+
+  const prayerBlock = (post.prayerRequests && post.prayerRequests.length)
+    ? `<div class="prayer-note"><strong>If you don't have time to read, consider praying for:</strong><br>${post.prayerRequests.join(" &middot; ")}</div>`
+    : "";
+
+  const photosBlock = (post.photos && post.photos.length)
+    ? `<div class="page-photos">${post.photos.map((photo, i) => `
+        <a class="polaroid" href="photos.html" style="transform: rotate(${SPINE_ROTATIONS[i % SPINE_ROTATIONS.length]}deg); width: 200px;">
+          <img src="${photo.src}" alt="${photo.caption}" loading="lazy">
+          <div class="caption">${photo.caption}</div>
+        </a>
+      `).join("")}</div>`
+    : "";
+
+  return `
+    <div class="page-date">${formatDate(post.date)}</div>
+    <h2>${post.title}</h2>
+    ${bodyParas}
+    ${prayerBlock}
+    ${photosBlock}
+  `;
+}
+
+let activeBook = null;
+
+function openBook(slug) {
+  const post = posts.find(p => p.slug === slug);
+  if (!post) return;
+  activeBook = slug;
+
+  const overlay = document.getElementById("book-overlay");
+  const cover = document.getElementById("book-cover");
+  const idx = chronoPosts().findIndex(p => p.slug === slug);
+  const color = SPINE_COLORS[idx % SPINE_COLORS.length];
+
+  cover.style.background = color;
+  document.getElementById("book-cover-title").textContent = post.title;
+  document.getElementById("book-cover-date").textContent = formatDate(post.date);
+  document.getElementById("book-page-content").innerHTML = renderBookPageContent(post);
+
+  cover.classList.remove("opening");
+  overlay.classList.add("open");
+  document.body.style.overflow = "hidden";
+  history.replaceState(null, "", `#${slug}`);
+
+  requestAnimationFrame(() => {
+    setTimeout(() => cover.classList.add("opening"), 220);
+  });
+}
+
+function closeBook() {
+  const overlay = document.getElementById("book-overlay");
+  const cover = document.getElementById("book-cover");
+  overlay.classList.remove("open");
+  document.body.style.overflow = "";
+  history.replaceState(null, "", location.pathname);
+  setTimeout(() => {
+    cover.classList.remove("opening");
+  }, 360);
+  activeBook = null;
+}
+
+function initBookOverlay() {
+  const overlay = document.getElementById("book-overlay");
+  const closeBtn = document.getElementById("book-close");
+  if (!overlay || !closeBtn) return;
+  closeBtn.addEventListener("click", closeBook);
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) closeBook(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && activeBook) closeBook(); });
+
+  const hash = decodeURIComponent(location.hash.replace("#", ""));
+  if (hash && posts.some(p => p.slug === hash)) {
+    setTimeout(() => openBook(hash), 300);
+  }
+}
+
+/* ---- Photographs: every photo, as polaroids paired back to its entry ---- */
 function renderPhotoGrid() {
   const grid = document.getElementById("photo-grid");
   if (!grid) return;
   const all = sortedPosts();
   const cards = [];
+  let i = 0;
   all.forEach(post => {
     (post.photos || []).forEach(photo => {
+      const rot = SPINE_ROTATIONS[i % SPINE_ROTATIONS.length];
+      i++;
       cards.push(`
-        <div class="photo-card">
-          <figure>
-            <img src="${photo.src}" alt="${photo.caption}" loading="lazy">
-            <figcaption>
-              ${photo.caption}<br>
-              <a class="from-post" href="log.html#${post.slug}">From: ${post.title} &rarr;</a>
-            </figcaption>
-          </figure>
-        </div>
+        <a class="polaroid" href="log.html#${post.slug}" style="transform: rotate(${rot}deg);">
+          <img src="${photo.src}" alt="${photo.caption}" loading="lazy">
+          <div class="caption">${photo.caption}<span class="from-post">From: ${post.title}</span></div>
+        </a>
       `);
     });
   });
@@ -126,7 +210,8 @@ function initSignup() {
 
 document.addEventListener("DOMContentLoaded", () => {
   renderHomeLatest();
-  renderLogList();
+  renderBookshelf();
   renderPhotoGrid();
+  initBookOverlay();
   initSignup();
 });

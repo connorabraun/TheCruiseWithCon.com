@@ -32,10 +32,27 @@
 </header>
 
 <main>
-  <div class="log-list" id="log-list">
-    <!-- Populated automatically by js/site.js from js/data.js -->
+  <div class="bookshelf-wrap">
+    <div class="bookshelf" id="bookshelf">
+      <!-- Populated automatically by js/site.js from js/data.js -->
+    </div>
   </div>
 </main>
+
+<div class="book-overlay" id="book-overlay" role="dialog" aria-modal="true" aria-label="Ship Log entry">
+  <div class="book-3d">
+    <div class="book-inner">
+      <button class="book-close" id="book-close" aria-label="Close">&times;</button>
+      <div class="book-page" id="book-page-content"></div>
+      <div class="book-cover" id="book-cover">
+        <div>
+          <div class="cover-title" id="book-cover-title"></div>
+          <div class="cover-date" id="book-cover-date"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <footer>
   <span>TheCruiseWithCon.com</span>
