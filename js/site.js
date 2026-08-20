@@ -337,12 +337,56 @@ function initSignupFooterAvoidance() {
   observer.observe(footer);
 }
 
+/* ---- Home: rotating "explore" carousel ---- */
+function initExploreCarousel() {
+  const track = document.getElementById("explore-track");
+  const dotsWrap = document.getElementById("explore-dots");
+  if (!track || !dotsWrap) return;
+  const slides = [...track.querySelectorAll(".explore-slide")];
+  if (slides.length <= 1) return;
+
+  dotsWrap.innerHTML = slides
+    .map((_, i) => `<button class="explore-dot${i === 0 ? " active" : ""}" aria-label="Go to slide ${i + 1}"></button>`)
+    .join("");
+  const dots = [...dotsWrap.querySelectorAll(".explore-dot")];
+
+  let index = 0;
+  let timer = null;
+
+  function show(next) {
+    slides[index].classList.remove("active");
+    dots[index].classList.remove("active");
+    index = (next + slides.length) % slides.length;
+    slides[index].classList.add("active");
+    dots[index].classList.add("active");
+  }
+
+  function restart() {
+    clearInterval(timer);
+    timer = setInterval(() => show(index + 1), 5000);
+  }
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener("click", () => {
+      show(i);
+      restart();
+    });
+  });
+
+  const carousel = track.closest(".explore-carousel");
+  carousel.addEventListener("mouseenter", () => clearInterval(timer));
+  carousel.addEventListener("mouseleave", restart);
+
+  restart();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderHomeLatest();
   renderBookStack();
   renderPhotoGrid();
   initBookOverlay();
   initLightbox();
+  initExploreCarousel();
   initSignup();
   initSignupFooterAvoidance();
 });

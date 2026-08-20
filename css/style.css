@@ -62,12 +62,20 @@ nav {
   mix-blend-mode: difference;
 }
 nav .wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: 'Fraunces', serif;
   font-size: 30px;              /* doubled per request */
   letter-spacing: 0.02em;
   text-transform: none;
   font-weight: 500;
   text-decoration: none;
+}
+nav .wordmark-icon {
+  width: 32px;
+  height: 32px;
+  isolation: isolate;
 }
 nav ul { list-style: none; display: flex; gap: 32px; }
 nav a.navlink { color: inherit; text-decoration: none; opacity: 0.75; transition: opacity 0.25s ease; }
@@ -406,6 +414,14 @@ main { position: relative; z-index: 1; }
   box-shadow: 0 30px 70px rgba(0,0,0,0.5);
 }
 .book-overlay .book-cover.opening { transform: rotateY(-165deg); }
+.book-cover .cover-stamp {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 18px;
+  display: block;
+  opacity: 0.9;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4));
+}
 .book-cover .cover-kicker {
   font-family: 'Space Mono', monospace;
   font-size: 11px;
@@ -912,6 +928,7 @@ p.fine-print {
   margin: 44px 0 16px;
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(201, 162, 75, 0.35);
+  scroll-margin-top: 100px;
 }
 .story-body p { border-left: 2px solid rgba(201, 162, 75, 0.4); padding-left: 20px; }
 .story-body .placeholder { padding: 28px 24px; margin: 10px 0 30px; border-left: none; }
@@ -1098,6 +1115,16 @@ footer {
   color: var(--line);
   text-transform: uppercase;
 }
+.footer-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.footer-mark img {
+  width: 18px;
+  height: 18px;
+  opacity: 0.85;
+}
 
 /* ---------------------------------------------------------
    MOBILE — phones and small tablets
@@ -1109,6 +1136,7 @@ footer {
     padding: 16px 6vw;
   }
   nav .wordmark { flex: 1 0 100%; font-size: 19px; }
+  nav .wordmark-icon { width: 24px; height: 24px; }
   nav ul { gap: 14px 20px; flex-wrap: wrap; font-size: 10.5px; }
   nav a.navlink.nav-btn { padding: 6px 14px; }
 
