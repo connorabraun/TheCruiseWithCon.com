@@ -19,6 +19,15 @@
    5. Save the file. That's it — Home, Ship Log, and
       Photographs update automatically.
 
+   NON-NUMBERED WRITINGS:
+   For a standalone piece that isn't part of the dated log
+   sequence (a manifesto, a reflection, anything you don't
+   want counted as "Log N° —"), add numbered: false. It still
+   takes its place in the stack by date, still opens and reads
+   the same way — it just shows "Writing" on its spine instead
+   of a number, and doesn't take a slot in the numbering of
+   the entries around it.
+
    EXAMPLE (copy this shape when you add your first entry):
 
    {
@@ -34,6 +43,7 @@
      photos: [
        { src: "images/your-photo.jpg", caption: "Caption for the photo" }
      ]
+     // numbered: false   <- uncomment for a non-numbered writing
    }
    ========================================================= */
 

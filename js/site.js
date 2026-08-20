@@ -40,12 +40,16 @@ function renderHomeLatest() {
 }
 
 /* ---- The Log: a stacked pile of books, newest on top ---- */
-const SPINE_COLORS = ["#0a1930", "#5c2a2a", "#233d2e", "#142842", "#4a3520"];
+const BOOK_TONES = ["#5c2430", "#5a3825", "#454f30", "#2f2a22", "#7a5230", "#4a2e1f"];
 const SPINE_ROTATIONS = [-2, 1.5, -1, 2, -1.5, 1];
 const SLAB_TILTS = [-1.1, 0.8, -0.6, 1.3, -1.6, 0.5, -0.9, 1.1];
 
 function chronoPosts() {
   return [...posts].sort((a, b) => new Date(a.date) - new Date(b.date));
+}
+
+function numberedChronoPosts() {
+  return chronoPosts().filter(p => p.numbered !== false);
 }
 
 function renderBookStack() {
@@ -56,22 +60,26 @@ function renderBookStack() {
     stack.innerHTML = `<p style="opacity:0.6; padding-bottom: 20px;">There are no entries yet. The journey begins August 22, 2026.</p>`;
     return;
   }
+  const numbered = numberedChronoPosts();
   const newestFirst = [...chrono].reverse();
   stack.innerHTML = newestFirst.map((post, i) => {
     const chronoIndex = chrono.length - 1 - i;
-    const num = String(chronoIndex + 1).padStart(2, "0");
-    const color = SPINE_COLORS[chronoIndex % SPINE_COLORS.length];
+    const isNumbered = post.numbered !== false;
+    const numLabel = isNumbered
+      ? `N&deg; ${String(numbered.findIndex(p => p.slug === post.slug) + 1).padStart(2, "0")}`
+      : "Writing";
+    const color = BOOK_TONES[chronoIndex % BOOK_TONES.length];
     const tilt = SLAB_TILTS[i % SLAB_TILTS.length];
     const delay = (i * 0.05).toFixed(2);
     const marginTop = i === 0 ? "0px" : "-14px";
     const z = newestFirst.length - i;
     return `
       <button class="book-slab" data-slug="${post.slug}"
-        style="background:${color}; --tilt:${tilt}deg; --delay:${delay}s; margin-top:${marginTop}; z-index:${z};"
+        style="background-color:${color}; --tilt:${tilt}deg; --delay:${delay}s; margin-top:${marginTop}; z-index:${z};"
         aria-haspopup="dialog" aria-label="Open entry: ${post.title}, ${formatDate(post.date)}">
         <span class="slab-pages" aria-hidden="true"></span>
         <span class="slab-face">
-          <span class="slab-num">N&deg; ${num}</span>
+          <span class="slab-num${isNumbered ? "" : " slab-num-writing"}">${numLabel}</span>
           <span class="slab-date">${formatDateNumeric(post.date)}</span>
           <span class="slab-title">${post.title}</span>
         </span>
@@ -84,7 +92,7 @@ function renderBookStack() {
   });
 }
 
-function renderBookPageContent(post, num) {
+function renderBookPageContent(post, kickerLabel) {
   const bodyParas = post.body && post.body.length ? post.body : [post.excerpt];
   const bodyHtml = bodyParas.map(p => `<p>${p}</p>`).join("");
 
@@ -116,7 +124,7 @@ function renderBookPageContent(post, num) {
     : "";
 
   return `
-    <div class="page-kicker">Log N&deg; ${num} &mdash; ${formatDate(post.date)}</div>
+    <div class="page-kicker">${kickerLabel} &mdash; ${formatDate(post.date)}</div>
     <div class="page-layout">
       <div class="page-copy">
         <h2>${post.title}</h2>
@@ -140,14 +148,17 @@ function openBook(slug) {
   const cover = document.getElementById("book-cover");
   const pageContent = document.getElementById("book-page-content");
   const idx = chronoPosts().findIndex(p => p.slug === slug);
-  const num = String(idx + 1).padStart(2, "0");
-  const color = SPINE_COLORS[idx % SPINE_COLORS.length];
+  const isNumbered = post.numbered !== false;
+  const kickerLabel = isNumbered
+    ? `Log N° ${String(numberedChronoPosts().findIndex(p => p.slug === slug) + 1).padStart(2, "0")}`
+    : "A Writing";
+  const color = BOOK_TONES[idx % BOOK_TONES.length];
 
-  cover.style.background = color;
-  document.getElementById("book-cover-kicker").textContent = `Log N° ${num}`;
+  cover.style.backgroundColor = color;
+  document.getElementById("book-cover-kicker").textContent = kickerLabel;
   document.getElementById("book-cover-title").textContent = post.title;
   document.getElementById("book-cover-date").textContent = formatDate(post.date);
-  pageContent.innerHTML = renderBookPageContent(post, num);
+  pageContent.innerHTML = renderBookPageContent(post, kickerLabel);
   pageContent.classList.remove("revealed");
 
   cover.classList.remove("opening");
