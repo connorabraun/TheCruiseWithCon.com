@@ -31,40 +31,48 @@
       linear-gradient(90deg, var(--line-pale) 1px, transparent 1px);
     background-size: 48px 48px;
     opacity: 0;
-    animation: fadeGrid 2.4s ease forwards 0.2s;
+    transform: scale(1.16);
+    animation: fadeGrid 2.4s ease forwards 0.2s, gridSettle 2.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
   }
   .grid-bg::after {
     content: ""; position: absolute; inset: 0;
     background: radial-gradient(ellipse 70% 60% at 50% 45%, transparent 40%, var(--ink) 100%);
   }
   @keyframes fadeGrid { to { opacity: 1; } }
+  @keyframes gridSettle { to { transform: scale(1); } }
+  .warp-flash {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 45%, rgba(232,200,116,0.35), transparent 55%);
+    opacity: 0;
+    animation: warpFlash 1.8s ease-out forwards;
+    pointer-events: none;
+  }
+  @keyframes warpFlash { 0% { opacity: 0; } 10% { opacity: 1; } 100% { opacity: 0; } }
   .coord {
     position: absolute; font-family: 'Space Mono', monospace; font-size: 11px;
     letter-spacing: 0.08em; color: var(--line); opacity: 0; animation: fadeIn 1.2s ease forwards;
   }
   .coord::before { content: "\2014 "; color: var(--gold); }
-  @keyframes fadeIn { to { opacity: 0.55; } }
-  .coord-1 { top: 14%; left: 8%; animation-delay: 2.4s; }
-  .coord-2 { top: 20%; right: 9%; animation-delay: 2.7s; }
-  .coord-3 { bottom: 16%; left: 10%; animation-delay: 3s; }
-  .coord-4 { bottom: 22%; right: 7%; animation-delay: 3.3s; }
+  @keyframes fadeIn { from { opacity: 0; transform: translate(var(--tx, 0), var(--ty, 0)); } to { opacity: 0.55; transform: translate(0, 0); } }
+  .coord-1 { top: 14%; left: 8%; animation-delay: 2.4s; --tx: -14px; --ty: -10px; }
+  .coord-2 { top: 20%; right: 9%; animation-delay: 2.7s; --tx: 14px; --ty: -10px; }
+  .coord-3 { bottom: 16%; left: 10%; animation-delay: 3s; --tx: -14px; --ty: 10px; }
+  .coord-4 { bottom: 22%; right: 7%; animation-delay: 3.3s; --tx: 14px; --ty: 10px; }
   .coord a { color: inherit; text-decoration: underline dotted; text-underline-offset: 3px; }
   .coord a:hover, .coord a:focus-visible { color: var(--gold-bright); }
   .hero-content { position: relative; z-index: 5; opacity: 0; animation: riseIn 1.4s ease forwards 1.4s; }
   @keyframes riseIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-  .hero-banner {
-    display: block;
-    width: 100%;
-    max-width: 820px;
-    height: auto;
-    margin: 0 auto 26px;
-    border-radius: 4px;
-    box-shadow: 0 30px 70px rgba(0,0,0,0.5);
-  }
   .welcome-blurb {
-    max-width: 620px; font-weight: 300; font-family: 'Spectral', serif;
+    max-width: 620px; min-height: 7em; font-weight: 300; font-family: 'Spectral', serif;
     font-size: clamp(1.05rem, 2vw, 1.3rem); line-height: 1.85; color: rgba(244, 239, 228, 0.9);
   }
+  .welcome-blurb.typing::after {
+    content: "\258C";
+    margin-left: 2px;
+    color: var(--gold-bright);
+    animation: blinkCursor 0.9s steps(1) infinite;
+  }
+  @keyframes blinkCursor { 50% { opacity: 0; } }
   .scroll-cue {
     position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
     font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
@@ -73,68 +81,6 @@
   }
   .scroll-cue .stem { width: 1px; height: 34px; background: linear-gradient(var(--gold), transparent); animation: stemPulse 2.2s ease-in-out infinite 3s; }
   @keyframes stemPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
-
-  /* ---- Home-only: explore carousel ---- */
-  .explore {
-    padding: 9vh 6vw 4vh;
-    border-top: 1px solid var(--line-pale-strong);
-    text-align: center;
-  }
-  .explore .label { margin-bottom: 26px; }
-  .explore-carousel { position: relative; max-width: 720px; margin: 0 auto; }
-  .explore-track {
-    position: relative;
-    aspect-ratio: 16 / 10;
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: 0 24px 50px rgba(0,0,0,0.45);
-  }
-  .explore-slide {
-    position: absolute; inset: 0;
-    display: block;
-    text-decoration: none;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.9s ease;
-  }
-  .explore-slide.active { opacity: 1; pointer-events: auto; }
-  .explore-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .explore-slide::after {
-    content: "";
-    position: absolute; inset: 0;
-    background: linear-gradient(0deg, rgba(6,16,32,0.88), transparent 45%);
-  }
-  .explore-caption {
-    position: absolute;
-    left: 28px; bottom: 22px;
-    z-index: 2;
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    font-size: 1.3rem;
-    color: var(--paper);
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: gap 0.25s ease, color 0.25s ease;
-  }
-  .explore-slide:hover .explore-caption, .explore-slide:focus-visible .explore-caption {
-    gap: 16px;
-    color: var(--gold-bright);
-  }
-  .explore-dots { display: flex; justify-content: center; gap: 10px; margin-top: 22px; }
-  .explore-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    border: none;
-    background: var(--line-pale-strong);
-    cursor: pointer;
-    padding: 0;
-    transition: background 0.25s ease, transform 0.25s ease;
-  }
-  .explore-dot.active { background: var(--gold); transform: scale(1.3); }
-  @media (max-width: 700px) {
-    .explore-caption { font-size: 1.1rem; left: 20px; bottom: 16px; }
-  }
 </style>
 </head>
 <body>
@@ -151,31 +97,14 @@
 
 <section class="hero">
   <div class="grid-bg"></div>
+  <div class="warp-flash"></div>
   <span class="coord coord-1">5°40'N, 0°00'W</span>
   <span class="coord coord-2">8.22.2026&ndash;6.16.2027</span>
   <span class="coord coord-3"><a href="https://www.mercyships.org" target="_blank" rel="noopener">MercyShips.org</a></span>
   <span class="coord coord-4"><a href="https://www.marinetraffic.com/ais/details/ships/imo:9726499" target="_blank" rel="noopener">MV GLOBAL MERCY 9726499</a></span>
 
   <div class="hero-content">
-    <img src="images/banner-logo.jpg" alt="The Cruise With Con — a year aboard the Global Mercy" class="hero-banner">
-    <p class="welcome-blurb">A year documenting the journey aboard the Global Mercy.</p>
-  </div>
-</section>
-
-<section class="explore">
-  <span class="label">Explore The Mission</span>
-  <div class="explore-carousel">
-    <div class="explore-track" id="explore-track">
-      <a class="explore-slide active" href="story.html#organization">
-        <img src="images/mercy-ship-blueprint.jpg" alt="The MV Global Mercy" loading="lazy">
-        <span class="explore-caption">The Ship <span aria-hidden="true">&rarr;</span></span>
-      </a>
-      <a class="explore-slide" href="story.html#hope-center">
-        <img src="images/hope-center-blueprint.jpg" alt="The HOPE Center" loading="lazy">
-        <span class="explore-caption">The HOPE Center <span aria-hidden="true">&rarr;</span></span>
-      </a>
-    </div>
-    <div class="explore-dots" id="explore-dots"></div>
+    <p class="welcome-blurb" id="welcome-blurb" data-full-text="Thank you for taking interest in my year long mission to serve the people of Ghana with Mercy Ships. I will be using this site as a platform to document the journey, to reflect on what I am learning, to stay in touch with those who are supporting me, and to hopefully inspire others with the works of love that are happening in our world."></p>
   </div>
 </section>
 

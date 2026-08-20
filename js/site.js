@@ -168,7 +168,7 @@ function openBook(slug) {
 
   requestAnimationFrame(() => {
     setTimeout(() => cover.classList.add("opening"), 220);
-    setTimeout(() => pageContent.classList.add("revealed"), 220 + 850);
+    setTimeout(() => pageContent.classList.add("revealed"), 220 + 1250);
   });
 }
 
@@ -337,47 +337,28 @@ function initSignupFooterAvoidance() {
   observer.observe(footer);
 }
 
-/* ---- Home: rotating "explore" carousel ---- */
-function initExploreCarousel() {
-  const track = document.getElementById("explore-track");
-  const dotsWrap = document.getElementById("explore-dots");
-  if (!track || !dotsWrap) return;
-  const slides = [...track.querySelectorAll(".explore-slide")];
-  if (slides.length <= 1) return;
-
-  dotsWrap.innerHTML = slides
-    .map((_, i) => `<button class="explore-dot${i === 0 ? " active" : ""}" aria-label="Go to slide ${i + 1}"></button>`)
-    .join("");
-  const dots = [...dotsWrap.querySelectorAll(".explore-dot")];
-
-  let index = 0;
-  let timer = null;
-
-  function show(next) {
-    slides[index].classList.remove("active");
-    dots[index].classList.remove("active");
-    index = (next + slides.length) % slides.length;
-    slides[index].classList.add("active");
-    dots[index].classList.add("active");
+/* ---- Home: type the welcome line out like a typewriter ---- */
+function initWelcomeTypewriter() {
+  const el = document.getElementById("welcome-blurb");
+  if (!el) return;
+  const text = el.dataset.fullText || "";
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) {
+    el.textContent = text;
+    return;
   }
-
-  function restart() {
-    clearInterval(timer);
-    timer = setInterval(() => show(index + 1), 5000);
+  el.classList.add("typing");
+  let i = 0;
+  function tick() {
+    el.textContent = text.slice(0, i);
+    i++;
+    if (i <= text.length) {
+      setTimeout(tick, 16);
+    } else {
+      el.classList.remove("typing");
+    }
   }
-
-  dots.forEach((dot, i) => {
-    dot.addEventListener("click", () => {
-      show(i);
-      restart();
-    });
-  });
-
-  const carousel = track.closest(".explore-carousel");
-  carousel.addEventListener("mouseenter", () => clearInterval(timer));
-  carousel.addEventListener("mouseleave", restart);
-
-  restart();
+  setTimeout(tick, 2600);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -386,7 +367,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderPhotoGrid();
   initBookOverlay();
   initLightbox();
-  initExploreCarousel();
+  initWelcomeTypewriter();
   initSignup();
   initSignupFooterAvoidance();
 });
