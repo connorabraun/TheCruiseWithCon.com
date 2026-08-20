@@ -50,9 +50,10 @@ function renderBookshelf() {
   shelf.innerHTML = all.map((post, i) => {
     const color = SPINE_COLORS[i % SPINE_COLORS.length];
     const heightVariance = 220 + (i % 3) * 14;
+    const delay = (i * 0.06).toFixed(2);
     return `
       <button class="book-spine" data-slug="${post.slug}"
-        style="background:${color}; height:${heightVariance}px;"
+        style="background:${color}; height:${heightVariance}px; animation-delay:${delay}s;"
         aria-haspopup="dialog" aria-label="Open entry: ${post.title}, ${formatDate(post.date)}">
         <span class="spine-glint"></span>
         <span class="spine-date">${formatDate(post.date)}</span>
@@ -65,29 +66,48 @@ function renderBookshelf() {
   });
 }
 
-function renderBookPageContent(post) {
-  const bodyParas = (post.body && post.body.length ? post.body : [post.excerpt])
-    .map(p => `<p>${p}</p>`).join("");
+function renderBookPageContent(post, num) {
+  const bodyParas = post.body && post.body.length ? post.body : [post.excerpt];
+  const bodyHtml = bodyParas.map(p => `<p>${p}</p>`).join("");
+
+  const photos = post.photos || [];
+  const feature = photos[0];
+  const restPhotos = photos.slice(1);
 
   const prayerBlock = (post.prayerRequests && post.prayerRequests.length)
-    ? `<div class="prayer-note"><strong>If you don't have time to read, consider praying for:</strong><br>${post.prayerRequests.join(" &middot; ")}</div>`
+    ? `<aside class="prayer-marginalia">
+        <span class="marginalia-label">In Prayer</span>
+        <ul>${post.prayerRequests.map(r => `<li>${r}</li>`).join("")}</ul>
+      </aside>`
     : "";
 
-  const photosBlock = (post.photos && post.photos.length)
-    ? `<div class="page-photos">${post.photos.map((photo, i) => `
-        <a class="polaroid" href="photos.html" style="transform: rotate(${SPINE_ROTATIONS[i % SPINE_ROTATIONS.length]}deg); width: 200px;">
+  const featureBlock = feature
+    ? `<a class="feature-photo" href="photos.html">
+        <span class="frame"><img src="${feature.src}" alt="${feature.caption}" loading="lazy"></span>
+        <span class="feature-caption">${feature.caption}</span>
+      </a>`
+    : "";
+
+  const stripBlock = restPhotos.length
+    ? `<div class="photo-strip">${restPhotos.map((photo, i) => `
+        <a class="strip-photo" href="photos.html" style="--r:${SPINE_ROTATIONS[(i + 1) % SPINE_ROTATIONS.length]}deg">
           <img src="${photo.src}" alt="${photo.caption}" loading="lazy">
-          <div class="caption">${photo.caption}</div>
+          <span class="caption">${photo.caption}</span>
         </a>
       `).join("")}</div>`
     : "";
 
   return `
-    <div class="page-date">${formatDate(post.date)}</div>
-    <h2>${post.title}</h2>
-    ${bodyParas}
-    ${prayerBlock}
-    ${photosBlock}
+    <div class="page-kicker">Log N&deg; ${num} &mdash; ${formatDate(post.date)}</div>
+    <div class="page-layout">
+      <div class="page-copy">
+        <h2>${post.title}</h2>
+        <div class="body-text">${bodyHtml}</div>
+        ${prayerBlock}
+      </div>
+      ${featureBlock}
+    </div>
+    ${stripBlock}
   `;
 }
 
@@ -100,13 +120,17 @@ function openBook(slug) {
 
   const overlay = document.getElementById("book-overlay");
   const cover = document.getElementById("book-cover");
+  const pageContent = document.getElementById("book-page-content");
   const idx = chronoPosts().findIndex(p => p.slug === slug);
+  const num = String(idx + 1).padStart(2, "0");
   const color = SPINE_COLORS[idx % SPINE_COLORS.length];
 
   cover.style.background = color;
+  document.getElementById("book-cover-kicker").textContent = `Log N° ${num}`;
   document.getElementById("book-cover-title").textContent = post.title;
   document.getElementById("book-cover-date").textContent = formatDate(post.date);
-  document.getElementById("book-page-content").innerHTML = renderBookPageContent(post);
+  pageContent.innerHTML = renderBookPageContent(post, num);
+  pageContent.classList.remove("revealed");
 
   cover.classList.remove("opening");
   overlay.classList.add("open");
@@ -115,6 +139,7 @@ function openBook(slug) {
 
   requestAnimationFrame(() => {
     setTimeout(() => cover.classList.add("opening"), 220);
+    setTimeout(() => pageContent.classList.add("revealed"), 220 + 850);
   });
 }
 
