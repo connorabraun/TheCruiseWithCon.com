@@ -329,7 +329,8 @@ main { position: relative; z-index: 1; }
 }
 .book-shelf-ledge .ledge-board {
   height: 26px;
-  border-radius: 2px;
+  margin: 0 -44px;
+  border-radius: 3px;
   background-color: #3a2818;
   background-image:
     linear-gradient(180deg, rgba(255,255,255,0.08), transparent 40%),
@@ -341,7 +342,7 @@ main { position: relative; z-index: 1; }
 .book-shelf-ledge::after {
   content: "";
   position: absolute;
-  left: 6vw; right: 6vw; top: 26px;
+  left: calc(6vw - 44px); right: calc(6vw - 44px); top: 26px;
   height: 40px;
   background: linear-gradient(180deg, rgba(0,0,0,0.35), transparent);
   pointer-events: none;
@@ -1149,6 +1150,8 @@ footer {
   .book-stack-wrap { padding: 6vh 6vw 0; }
   .book-slab { height: 52px; padding: 0 18px 0 30px; }
   .book-shelf-ledge { padding: 0 6vw 10vh; }
+  .book-shelf-ledge .ledge-board { margin: 0 -20px; }
+  .book-shelf-ledge::after { left: calc(6vw - 20px); right: calc(6vw - 20px); }
   .book-page { padding: 34px 22px 44px; }
   .book-close { top: -10px; right: -6px; }
   .story-body p { padding-left: 14px; }
