@@ -72,7 +72,7 @@ const posts = [
       "&mdash; Connor"
     ],
     photos: [
-      { src: "images/global-mercy-rotterdam.jpg", caption: "The Global Mercy docked in Rotterdam, before departure." }
+      { src: "images/global-mercy-rotterdam.jpg", caption: "The MV Global Mercy." }
     ]
   }
 ];

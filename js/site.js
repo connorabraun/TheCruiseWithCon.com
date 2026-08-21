@@ -99,6 +99,7 @@ function renderBookPageContent(post, kickerLabel) {
   const photos = post.photos || [];
   const feature = photos[0];
   const restPhotos = photos.slice(1);
+  const useHeaderPhoto = !!post.headerPhoto && !!feature;
 
   const prayerBlock = (post.prayerRequests && post.prayerRequests.length)
     ? `<aside class="prayer-marginalia">
@@ -111,16 +112,16 @@ function renderBookPageContent(post, kickerLabel) {
     ? `<div class="body-text closing-text">${post.closing.map(p => `<p>${p}</p>`).join("")}</div>`
     : "";
 
-  const featureBlock = feature
-    ? `<a class="feature-photo" href="photos.html">
+  const headerPhotoBlock = useHeaderPhoto
+    ? `<a class="header-photo" href="photos.html">
         <img src="${feature.src}" alt="${feature.caption}" loading="lazy">
-        <span class="feature-caption">${feature.caption}</span>
       </a>`
     : "";
 
-  const stripBlock = restPhotos.length
-    ? `<div class="photo-strip">${restPhotos.map((photo, i) => `
-        <a class="strip-photo" href="photos.html" style="--r:${SPINE_ROTATIONS[(i + 1) % SPINE_ROTATIONS.length]}deg">
+  const galleryPhotos = useHeaderPhoto ? restPhotos : photos;
+  const galleryBlock = galleryPhotos.length
+    ? `<div class="page-photo-gallery">${galleryPhotos.map((photo, i) => `
+        <a class="gallery-photo${i === 0 ? " gallery-photo-feature" : ""}" href="photos.html" style="--r:${SPINE_ROTATIONS[i % SPINE_ROTATIONS.length]}deg">
           <img src="${photo.src}" alt="${photo.caption}" loading="lazy">
           <span class="caption">${photo.caption}</span>
         </a>
@@ -128,17 +129,13 @@ function renderBookPageContent(post, kickerLabel) {
     : "";
 
   return `
+    ${headerPhotoBlock}
     <div class="page-kicker">${kickerLabel} &mdash; ${formatDate(post.date)}</div>
-    <div class="page-layout">
-      <div class="page-copy">
-        <h2>${post.title}</h2>
-        <div class="body-text">${bodyHtml}</div>
-        ${prayerBlock}
-        ${closingBlock}
-      </div>
-      ${featureBlock}
-    </div>
-    ${stripBlock}
+    <h2>${post.title}</h2>
+    <div class="body-text">${bodyHtml}</div>
+    ${closingBlock}
+    ${prayerBlock}
+    ${galleryBlock}
   `;
 }
 
