@@ -498,7 +498,7 @@ main { position: relative; z-index: 1; }
   color: rgba(6,16,32,0.85);
   margin-bottom: 18px;
 }
-.book-page .body-text p:first-of-type::first-letter {
+.book-page .body-text:not(.closing-text) p:first-of-type::first-letter {
   font-family: 'Fraunces', serif;
   font-weight: 600;
   font-size: 3.6em;
