@@ -62,17 +62,19 @@
   .coord a:hover, .coord a:focus-visible { color: var(--gold-bright); }
   .hero-content { position: relative; z-index: 5; opacity: 0; animation: riseIn 1.4s ease forwards 1.4s; }
   @keyframes riseIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-  .welcome-blurb {
-    max-width: 620px; min-height: 7em; font-weight: 300; font-family: 'Spectral', serif;
-    font-size: clamp(1.05rem, 2vw, 1.3rem); line-height: 1.85; color: rgba(244, 239, 228, 0.9);
-  }
-  .welcome-blurb.typing::after {
-    content: "\258C";
-    margin-left: 2px;
-    color: var(--gold-bright);
-    animation: blinkCursor 0.9s steps(1) infinite;
+  .hero-mark {
+    width: 150px;
+    height: 150px;
+    display: block;
+    margin: 0 auto;
+    filter: drop-shadow(0 12px 30px rgba(0,0,0,0.5));
   }
   @keyframes blinkCursor { 50% { opacity: 0; } }
+  nav .navlink.typing::after {
+    content: "\258C";
+    margin-left: 2px;
+    animation: blinkCursor 0.9s steps(1) infinite;
+  }
   .scroll-cue {
     position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
     font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
@@ -104,7 +106,7 @@
   <span class="coord coord-4"><a href="https://www.marinetraffic.com/ais/details/ships/imo:9726499" target="_blank" rel="noopener">MV GLOBAL MERCY 9726499</a></span>
 
   <div class="hero-content">
-    <p class="welcome-blurb" id="welcome-blurb" data-full-text="Thank you for taking interest in my year long mission to serve the people of Ghana with Mercy Ships. I will be using this site as a platform to document the journey, to reflect on what I am learning, to stay in touch with those who are supporting me, and to hopefully inspire others with the works of love that are happening in our world."></p>
+    <img src="images/compass-seal.png" alt="TheCruiseWithCon.com" class="hero-mark">
   </div>
 </section>
 

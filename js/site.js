@@ -107,6 +107,10 @@ function renderBookPageContent(post, kickerLabel) {
       </aside>`
     : "";
 
+  const closingBlock = (post.closing && post.closing.length)
+    ? `<div class="body-text closing-text">${post.closing.map(p => `<p>${p}</p>`).join("")}</div>`
+    : "";
+
   const featureBlock = feature
     ? `<a class="feature-photo" href="photos.html">
         <img src="${feature.src}" alt="${feature.caption}" loading="lazy">
@@ -130,6 +134,7 @@ function renderBookPageContent(post, kickerLabel) {
         <h2>${post.title}</h2>
         <div class="body-text">${bodyHtml}</div>
         ${prayerBlock}
+        ${closingBlock}
       </div>
       ${featureBlock}
     </div>
@@ -186,7 +191,7 @@ function closeBook() {
 
 function initBookOverlay() {
   const overlay = document.getElementById("book-overlay");
-  const closeBtn = document.getElementById("book-close");
+  const closeBtn = document.getElementById("book-back");
   if (!overlay || !closeBtn) return;
   closeBtn.addEventListener("click", closeBook);
   overlay.addEventListener("click", (e) => { if (e.target === overlay) closeBook(); });
@@ -337,28 +342,38 @@ function initSignupFooterAvoidance() {
   observer.observe(footer);
 }
 
-/* ---- Home: type the welcome line out like a typewriter ---- */
-function initWelcomeTypewriter() {
-  const el = document.getElementById("welcome-blurb");
-  if (!el) return;
-  const text = el.dataset.fullText || "";
+/* ---- Home: nav links type themselves in on the first load ---- */
+function initNavTypewriter() {
+  if (!document.querySelector(".hero")) return;
   const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduceMotion) {
-    el.textContent = text;
-    return;
-  }
-  el.classList.add("typing");
-  let i = 0;
-  function tick() {
-    el.textContent = text.slice(0, i);
-    i++;
-    if (i <= text.length) {
-      setTimeout(tick, 16);
-    } else {
-      el.classList.remove("typing");
+  if (reduceMotion) return;
+
+  const links = [...document.querySelectorAll("nav .navlink")];
+  if (!links.length) return;
+  const originals = links.map(a => a.textContent);
+  links.forEach(a => { a.textContent = ""; });
+
+  let linkIndex = 0;
+  function typeLink() {
+    if (linkIndex >= links.length) return;
+    const a = links[linkIndex];
+    const text = originals[linkIndex];
+    a.classList.add("typing");
+    let i = 0;
+    function tick() {
+      a.textContent = text.slice(0, i);
+      i++;
+      if (i <= text.length) {
+        setTimeout(tick, 35);
+      } else {
+        a.classList.remove("typing");
+        linkIndex++;
+        setTimeout(typeLink, 120);
+      }
     }
+    tick();
   }
-  setTimeout(tick, 2600);
+  typeLink();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -367,7 +382,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderPhotoGrid();
   initBookOverlay();
   initLightbox();
-  initWelcomeTypewriter();
+  initNavTypewriter();
   initSignup();
   initSignupFooterAvoidance();
 });
