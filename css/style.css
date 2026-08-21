@@ -1128,6 +1128,21 @@ footer {
 }
 
 /* ---------------------------------------------------------
+   NAV — mid-width fallback (narrow laptop windows, or browser
+   zoom, before the wordmark + links collide with each other)
+   --------------------------------------------------------- */
+@media (max-width: 1040px) {
+  nav {
+    flex-wrap: wrap;
+    row-gap: 10px;
+    padding: 16px 5vw;
+  }
+  nav .wordmark { flex: 1 0 100%; font-size: 22px; }
+  nav .wordmark-icon { width: 26px; height: 26px; }
+  nav ul { gap: 10px 20px; flex-wrap: wrap; }
+}
+
+/* ---------------------------------------------------------
    MOBILE — phones and small tablets
    --------------------------------------------------------- */
 @media (max-width: 700px) {
