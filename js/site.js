@@ -71,11 +71,10 @@ function renderBookStack() {
     const color = BOOK_TONES[chronoIndex % BOOK_TONES.length];
     const offset = SLAB_OFFSETS[i % SLAB_OFFSETS.length];
     const delay = (i * 0.05).toFixed(2);
-    const marginTop = i === 0 ? "0px" : "-14px";
     const z = newestFirst.length - i;
     return `
       <button class="book-slab" data-slug="${post.slug}"
-        style="background-color:${color}; --offset:${offset}px; --delay:${delay}s; margin-top:${marginTop}; z-index:${z};"
+        style="background-color:${color}; --offset:${offset}px; --delay:${delay}s; z-index:${z};"
         aria-haspopup="dialog" aria-label="Open entry: ${post.title}, ${formatDate(post.date)}">
         <span class="slab-pages" aria-hidden="true"></span>
         <span class="slab-face">
