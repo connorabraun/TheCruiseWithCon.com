@@ -508,6 +508,52 @@ main { position: relative; z-index: 1; }
   padding: 5px 10px 0 0;
   color: #8a6a2c;
 }
+.book-page .body-text h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.4rem;
+  color: #8a6a2c;
+  margin: 44px 0 16px;
+}
+.body-photos { margin: 36px 0; }
+.body-photos.body-photo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.body-photo {
+  display: block;
+  text-decoration: none;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 16px 32px rgba(0,0,0,0.25);
+}
+.body-photo img {
+  width: 100%;
+  display: block;
+  filter: sepia(6%) saturate(90%);
+}
+.body-photos:not(.body-photo-row) .body-photo img {
+  max-height: 640px;
+  object-fit: cover;
+}
+.body-photo-row .body-photo {
+  flex: 1 1 200px;
+  aspect-ratio: 4 / 3;
+}
+.body-photo-row .body-photo img {
+  height: 100%;
+  object-fit: cover;
+}
+.body-photo .caption {
+  display: block;
+  margin-top: 10px;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: rgba(6,16,32,0.6);
+}
 .header-photo {
   display: block;
   margin: -8px calc(-1 * clamp(26px, 5vw, 72px)) 40px;

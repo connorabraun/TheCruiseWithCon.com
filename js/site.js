@@ -92,13 +92,58 @@ function renderBookStack() {
   });
 }
 
-function renderBookPageContent(post, kickerLabel) {
-  const bodyParas = post.body && post.body.length ? post.body : [post.excerpt];
-  const bodyHtml = bodyParas.map(p => `<p>${p}</p>`).join("");
+/* Body items are usually plain paragraph strings. They can also be
+   { heading: "..." } for a subsection title, or { inlinePhoto: "images/x.jpg" }
+   to place one of the post's own photos at that point in the text —
+   consecutive inlinePhoto items group into one row. */
+function renderBodyBlocks(body, photosBySrc) {
+  const blocks = [];
+  let i = 0;
+  while (i < body.length) {
+    const item = body[i];
+    if (typeof item === "string") {
+      blocks.push(`<p>${item}</p>`);
+      i++;
+    } else if (item && item.heading) {
+      blocks.push(`<h3>${item.heading}</h3>`);
+      i++;
+    } else if (item && item.inlinePhoto) {
+      const group = [];
+      while (i < body.length && body[i] && body[i].inlinePhoto) {
+        const photo = photosBySrc[body[i].inlinePhoto];
+        if (photo) group.push(photo);
+        i++;
+      }
+      if (group.length) {
+        const rowClass = group.length > 1 ? " body-photo-row" : "";
+        blocks.push(`<div class="body-photos${rowClass}">${group.map(p => `
+          <a class="body-photo" href="photos.html">
+            <img src="${p.src}" alt="${p.caption || ""}" loading="lazy">
+            ${p.caption ? `<span class="caption">${p.caption}</span>` : ""}
+          </a>
+        `).join("")}</div>`);
+      }
+    } else {
+      i++;
+    }
+  }
+  return blocks.join("");
+}
 
+function renderBookPageContent(post, kickerLabel) {
+  const bodyItems = post.body && post.body.length ? post.body : [post.excerpt];
   const photos = post.photos || [];
-  const feature = photos[0];
-  const restPhotos = photos.slice(1);
+  const photosBySrc = {};
+  photos.forEach(p => { photosBySrc[p.src] = p; });
+
+  const inlineSrcs = new Set(
+    bodyItems.filter(item => item && typeof item === "object" && item.inlinePhoto).map(item => item.inlinePhoto)
+  );
+  const bodyHtml = renderBodyBlocks(bodyItems, photosBySrc);
+
+  const remainingPhotos = photos.filter(p => !inlineSrcs.has(p.src));
+  const feature = remainingPhotos[0];
+  const restPhotos = remainingPhotos.slice(1);
   const useHeaderPhoto = !!post.headerPhoto && !!feature;
 
   const prayerBlock = (post.prayerRequests && post.prayerRequests.length)
@@ -118,7 +163,7 @@ function renderBookPageContent(post, kickerLabel) {
       </a>`
     : "";
 
-  const galleryPhotos = useHeaderPhoto ? restPhotos : photos;
+  const galleryPhotos = useHeaderPhoto ? restPhotos : remainingPhotos;
   const galleryBlock = galleryPhotos.length
     ? `<div class="page-photo-gallery">${galleryPhotos.map((photo, i) => `
         <a class="gallery-photo${i === 0 ? " gallery-photo-feature" : ""}" href="photos.html" style="--r:${SPINE_ROTATIONS[i % SPINE_ROTATIONS.length]}deg">
