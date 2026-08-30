@@ -42,7 +42,7 @@ function renderHomeLatest() {
 /* ---- The Log: a stacked pile of books, newest on top ---- */
 const BOOK_TONES = ["#5c2430", "#5a3825", "#454f30", "#2f2a22", "#7a5230", "#4a2e1f"];
 const SPINE_ROTATIONS = [-2, 1.5, -1, 2, -1.5, 1];
-const SLAB_TILTS = [-1.1, 0.8, -0.6, 1.3, -1.6, 0.5, -0.9, 1.1];
+const SLAB_OFFSETS = [-18, 12, -9, 20, -22, 7, -14, 16];
 
 function chronoPosts() {
   return [...posts].sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -69,13 +69,13 @@ function renderBookStack() {
       ? `N&deg; ${String(numbered.findIndex(p => p.slug === post.slug) + 1).padStart(2, "0")}`
       : "Writing";
     const color = BOOK_TONES[chronoIndex % BOOK_TONES.length];
-    const tilt = SLAB_TILTS[i % SLAB_TILTS.length];
+    const offset = SLAB_OFFSETS[i % SLAB_OFFSETS.length];
     const delay = (i * 0.05).toFixed(2);
     const marginTop = i === 0 ? "0px" : "-14px";
     const z = newestFirst.length - i;
     return `
       <button class="book-slab" data-slug="${post.slug}"
-        style="background-color:${color}; --tilt:${tilt}deg; --delay:${delay}s; margin-top:${marginTop}; z-index:${z};"
+        style="background-color:${color}; --offset:${offset}px; --delay:${delay}s; margin-top:${marginTop}; z-index:${z};"
         aria-haspopup="dialog" aria-label="Open entry: ${post.title}, ${formatDate(post.date)}">
         <span class="slab-pages" aria-hidden="true"></span>
         <span class="slab-face">
@@ -215,7 +215,7 @@ function openBook(slug) {
 
   requestAnimationFrame(() => {
     setTimeout(() => cover.classList.add("opening"), 220);
-    setTimeout(() => pageContent.classList.add("revealed"), 220 + 1250);
+    setTimeout(() => pageContent.classList.add("revealed"), 220 + 1650);
   });
 }
 

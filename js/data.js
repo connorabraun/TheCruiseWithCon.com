@@ -85,7 +85,7 @@ const posts = [
   {
     slug: "akwaaba",
     title: "Akwaaba",
-    date: "2026-08-29",
+    date: "2026-08-30",
     excerpt: "Akwaaba, from Tema, Ghana! These past seven days have been some of the fullest of my life.",
     body: [
       { inlinePhoto: "images/arrival-ghana.jpg" },
@@ -133,7 +133,7 @@ const posts = [
     ],
     photos: [
       { src: "images/arrival-ghana.jpg", caption: "Arriving at the Global Mercy for the first time." },
-      { src: "images/flat-tire.jpg", caption: "A flat tire on the road into Accra — five minutes to swap it out." },
+      { src: "images/flat-tire.jpg", caption: "A flat tire on the road into Accra." },
       { src: "images/jamestown-1.jpg", caption: "Jamestown, a historic neighborhood in Accra." },
       { src: "images/jamestown-2.jpg", caption: "Jamestown, Accra." },
       { src: "images/tema-harbor-1.jpg", caption: "The Port of Tema, the largest hub in West Africa." },
