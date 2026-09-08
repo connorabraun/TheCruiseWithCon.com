@@ -92,9 +92,11 @@ function renderBookStack() {
 }
 
 /* Body items are usually plain paragraph strings. They can also be
-   { heading: "..." } for a subsection title, or { inlinePhoto: "images/x.jpg" }
+   { heading: "..." } for a subsection title, { inlinePhoto: "images/x.jpg" }
    to place one of the post's own photos at that point in the text —
-   consecutive inlinePhoto items group into one row. */
+   consecutive inlinePhoto items group into one row — { list: ["...", "..."] }
+   for a bulleted list, or { quote: "...", reference: "..." } for a
+   chapter-opening-style epigraph (e.g. a scripture verse). */
 function renderBodyBlocks(body, photosBySrc) {
   const blocks = [];
   let i = 0;
@@ -105,6 +107,18 @@ function renderBodyBlocks(body, photosBySrc) {
       i++;
     } else if (item && item.heading) {
       blocks.push(`<h3>${item.heading}</h3>`);
+      i++;
+    } else if (item && item.list) {
+      blocks.push(`<ul class="body-list">${item.list.map(li => `<li>${li}</li>`).join("")}</ul>`);
+      i++;
+    } else if (item && item.quote) {
+      blocks.push(`
+        <div class="body-epigraph">
+          <span class="epigraph-rule" aria-hidden="true"></span>
+          <p class="epigraph-quote">${item.quote}</p>
+          ${item.reference ? `<p class="epigraph-reference">${item.reference}</p>` : ""}
+        </div>
+      `);
       i++;
     } else if (item && item.inlinePhoto) {
       const group = [];

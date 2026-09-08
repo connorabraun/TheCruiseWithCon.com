@@ -35,6 +35,8 @@ body::after {
   opacity: 0.05;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -499,7 +501,7 @@ main { position: relative; z-index: 1; }
   color: rgba(6,16,32,0.85);
   margin-bottom: 18px;
 }
-.book-page .body-text:not(.closing-text) p:first-of-type::first-letter {
+.book-page .body-text:not(.closing-text) > p:first-of-type::first-letter {
   font-family: 'Fraunces', serif;
   font-weight: 600;
   font-size: 3.6em;
@@ -514,6 +516,57 @@ main { position: relative; z-index: 1; }
   font-size: 1.4rem;
   color: #8a6a2c;
   margin: 44px 0 16px;
+}
+.book-page .body-text .body-list {
+  list-style: none;
+  margin: 0 0 22px;
+  padding: 0;
+}
+.book-page .body-text .body-list li {
+  position: relative;
+  font-weight: 400;
+  line-height: 1.75;
+  color: rgba(6,16,32,0.85);
+  padding-left: 26px;
+  margin-bottom: 12px;
+}
+.book-page .body-text .body-list li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0.7em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8a6a2c;
+}
+.body-epigraph {
+  max-width: 480px;
+  margin: 40px auto 46px;
+  text-align: center;
+}
+.body-epigraph .epigraph-rule {
+  display: block;
+  width: 46px;
+  height: 1px;
+  margin: 0 auto 26px;
+  background: #8a6a2c;
+}
+.body-epigraph .epigraph-quote {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  color: var(--ink-deep);
+  margin-bottom: 14px;
+}
+.body-epigraph .epigraph-reference {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a6a2c;
 }
 .body-photos { margin: 36px 0; }
 .body-photos.body-photo-row {
