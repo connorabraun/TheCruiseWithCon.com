@@ -577,9 +577,10 @@ main { position: relative; z-index: 1; }
 .body-photo {
   display: block;
   text-decoration: none;
-  border-radius: 3px;
-  overflow: hidden;
-  box-shadow: 0 16px 32px rgba(0,0,0,0.25);
+  background: #fbf8f0;
+  padding: 14px 14px 18px;
+  border-radius: 2px;
+  box-shadow: 0 16px 32px rgba(0,0,0,0.25), 0 2px 4px rgba(0,0,0,0.15);
 }
 .body-photo img {
   width: 100%;
@@ -592,20 +593,20 @@ main { position: relative; z-index: 1; }
 }
 .body-photo-row .body-photo {
   flex: 1 1 200px;
-  aspect-ratio: 4 / 3;
 }
 .body-photo-row .body-photo img {
-  height: 100%;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
 }
 .body-photo .caption {
   display: block;
-  margin-top: 10px;
+  padding: 14px 4px 0;
   font-family: 'Fraunces', serif;
   font-style: italic;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   line-height: 1.4;
-  color: rgba(6,16,32,0.6);
+  color: var(--ink-deep);
+  text-align: center;
 }
 .header-photo {
   display: block;
@@ -663,7 +664,11 @@ main { position: relative; z-index: 1; }
 .gallery-photo {
   display: block;
   text-decoration: none;
-  transition: transform 0.25s ease;
+  background: #fbf8f0;
+  padding: 14px 14px 18px;
+  border-radius: 2px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35), 0 2px 4px rgba(0,0,0,0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 .gallery-photo-feature { width: 100%; }
 .gallery-photo:not(.gallery-photo-feature) {
@@ -675,29 +680,28 @@ main { position: relative; z-index: 1; }
 .gallery-photo img {
   width: 100%;
   display: block;
-  border-radius: 3px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
   filter: sepia(6%) saturate(90%);
   transition: transform 0.5s ease;
 }
 .gallery-photo-feature:hover img, .gallery-photo-feature:focus-visible img { transform: scale(1.02); }
 .gallery-photo-feature .caption {
   display: block;
-  margin-top: 14px;
+  padding: 14px 4px 0;
   font-family: 'Fraunces', serif;
   font-style: italic;
-  font-size: 0.92rem;
+  font-size: 0.98rem;
   line-height: 1.5;
-  color: rgba(6,16,32,0.65);
-  text-align: left;
+  color: var(--ink-deep);
+  text-align: center;
 }
 .gallery-photo:not(.gallery-photo-feature) .caption {
   display: block;
-  margin-top: 10px;
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  color: #8a7550;
+  padding: 14px 4px 0;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--ink-deep);
   text-align: center;
 }
 
@@ -710,6 +714,7 @@ main { position: relative; z-index: 1; }
   padding: 8vh 6vw 16vh;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  align-items: start;
   gap: 48px 36px;
 }
 .polaroid {
