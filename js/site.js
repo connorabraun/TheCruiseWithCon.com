@@ -130,10 +130,10 @@ function renderBodyBlocks(body, photosBySrc) {
       if (group.length) {
         const rowClass = group.length > 1 ? " body-photo-row" : "";
         blocks.push(`<div class="body-photos${rowClass}">${group.map(p => `
-          <a class="body-photo" href="photos.html">
+          <button type="button" class="body-photo" data-lightbox-src="${p.src}">
             <img src="${p.src}" alt="${p.caption || ""}" loading="lazy">
             ${p.caption ? `<span class="caption">${p.caption}</span>` : ""}
-          </a>
+          </button>
         `).join("")}</div>`);
       }
     } else {
@@ -171,18 +171,18 @@ function renderBookPageContent(post, kickerLabel) {
     : "";
 
   const headerPhotoBlock = useHeaderPhoto
-    ? `<a class="header-photo" href="photos.html">
+    ? `<button type="button" class="header-photo" data-lightbox-src="${feature.src}">
         <img src="${feature.src}" alt="${feature.caption}" loading="lazy">
-      </a>`
+      </button>`
     : "";
 
   const galleryPhotos = useHeaderPhoto ? restPhotos : remainingPhotos;
   const galleryBlock = galleryPhotos.length
     ? `<div class="page-photo-gallery">${galleryPhotos.map((photo, i) => `
-        <a class="gallery-photo${i === 0 ? " gallery-photo-feature" : ""}" href="photos.html" style="--r:${SPINE_ROTATIONS[i % SPINE_ROTATIONS.length]}deg">
+        <button type="button" class="gallery-photo${i === 0 ? " gallery-photo-feature" : ""}" data-lightbox-src="${photo.src}" style="--r:${SPINE_ROTATIONS[i % SPINE_ROTATIONS.length]}deg">
           <img src="${photo.src}" alt="${photo.caption}" loading="lazy">
           <span class="caption">${photo.caption}</span>
-        </a>
+        </button>
       `).join("")}</div>`
     : "";
 
@@ -220,6 +220,12 @@ function openBook(slug) {
   document.getElementById("book-cover-date").textContent = formatDate(post.date);
   pageContent.innerHTML = renderBookPageContent(post, kickerLabel);
   pageContent.classList.remove("revealed");
+  pageContent.querySelectorAll("[data-lightbox-src]").forEach(el => {
+    el.addEventListener("click", () => {
+      const photoIndex = (post.photos || []).findIndex(p => p.src === el.dataset.lightboxSrc);
+      openPostLightbox(post.photos, Math.max(photoIndex, 0));
+    });
+  });
 
   cover.classList.remove("opening");
   overlay.classList.add("open");
@@ -299,8 +305,13 @@ function showLightboxPhoto(index) {
   document.getElementById("lightbox-img").alt = photo.caption;
   document.getElementById("lightbox-caption").textContent = photo.caption;
   const source = document.getElementById("lightbox-source");
-  source.href = `log.html#${photo.postSlug}`;
-  source.textContent = `From: ${photo.postTitle} →`;
+  if (photo.postSlug) {
+    source.style.display = "inline-block";
+    source.href = `log.html#${photo.postSlug}`;
+    source.textContent = `From: ${photo.postTitle} →`;
+  } else {
+    source.style.display = "none";
+  }
 }
 
 function openLightbox(index) {
@@ -309,6 +320,14 @@ function openLightbox(index) {
   showLightboxPhoto(index);
   overlay.classList.add("open");
   document.body.style.overflow = "hidden";
+}
+
+/* Opens the lightbox scoped to a single post's own photos (used when
+   clicking a photo within an open Ship Log entry) rather than the
+   full site-wide Photographs list. */
+function openPostLightbox(photos, index) {
+  lightboxPhotos = (photos || []).map(p => ({ src: p.src, caption: p.caption }));
+  openLightbox(index);
 }
 
 function closeLightbox() {
