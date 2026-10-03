@@ -205,13 +205,13 @@ const posts = [
       "Hello everyone, sorry for the hiatus in updates. Life has gotten quite busy and my natural tendency is to want to write in detail about the events taking place and lessons learned, which has led to me ceasing to write because of how much has happened recently. Therefore, I decided to provide an update that is pretty surface level as things have developed quickly with the hope that things stabilize so I can write in depth about some more important reflections as time goes on. With that being said, thank you for the continued support in various ways. I am enjoying my time here, but it is always nice to receive encouragement from home.",
       "Since I last wrote, the crew has returned to sufficient health to remove masking, we have received our water supply, and the surgeries are in full swing. I believe we have completed over 200 at this point.",
       "In the two weeks after that post, I started working/training for the Facilitator position at the HOPE Center that was operating within the hospital ward. I was quickly immersed in the chaos of the daily operations and enjoyed the fast-paced environment. The shifts are 12 hours and are full and engaging which makes them fly by. I learned a lot about hospital operations, which I had nearly no previous knowledge of. Each day when leaving I enjoyed the sense of camaraderie I was building with my immediate team as well as our Day (local) Crew. At this point, we had only about 50 patients at a time, which is less than 20% of what we will have when we are at full capacity. With how busy the days are, it is hard to imagine what it will be like when we are running this off the ship with 300 patients and caregivers.",
-      { inlinePhoto: "images/training-day-crew.jpg" },
       "I was trained by Sofia, who has been the manager for the last 2 years, and was serving as the Operations Lead to help with the transition from Sierra Leone to Ghana, and to help Gerhard, our new manager, learn the ropes. Before she left last weekend we celebrated her faithful commitment to this mission and the great contribution she made to furthering the HOPE Center. I learned a lot from her in a short time, and I am glad we crossed paths. As her time was coming to an end, Gerhard asked me to apply for the Operations Lead position. I knew this would be a possibility when I began to connect with the team this summer, but I was unsure how they were going to fill the position, or if I would have enough time to get the experience/trust needed to be considered for the role. I interviewed for it about a week later and was asked to step into the position.",
       "I am extremely excited to be in this new role, as it is an awesome opportunity to grow, serve, and be a part of the leadership team with Gerhard and Jan Reinier (Hospitality Lead). The Operations Lead is the main point of contact regarding Supply & Inventory, Transport, Infrastructure & Logistics, Facility Standards, and Safety & Compliance. I am quite aware of how large the role is and my lack of expertise in these areas at the moment. However, they told me they were interested in me filling the role because of my potential in it, not the experience or know-how that I currently possess. I am grateful to have people who want to help develop me and believe in who I can become.",
       "With that being said, the last few weeks have been incredibly intense as we lost our biggest experiential asset, Sofia, we were in the process of moving the HOPE Center off of the ship, we were shorthanded while waiting for our newest team member, Cheyenne (USA). So my transition into the new role has required that I continue working as a facilitator while trying to learn keep a boatload of information straight. As you would imagine, it has been hectic (but fun!).",
       "This past Wednesday, we handed over all of our patients to the Low Care Unit, so that we could focus all of our resources on preparing the HOPE Center. We have spent the last few days moving and setting up, and we will begin welcoming new patients tomorrow. The construction on essential parts is done, while we are still waiting for many other things to be finished. The next few weeks will be rocky and a test of our perseverance. I anticipate many unforeseen issues coming up, on top of the fact that we only have 50 beds currently. We are waiting for the remaining 250 that have been anchored on a container ship outside of our port for about two weeks. We are praying that they arrive soon and clear customs quickly so that we can receive the patients we have scheduled. We will be able to make do for about two weeks, but we will then reach our capacity at the HOPE Center and on the ship, which would force us to cancel surgeries. There is some promise that things can change because we had the President of Ghana onboard a few days ago, as he indicated that he was going to help in a variety of ways.",
-      { inlinePhoto: "images/hope-center-move.jpg" },
       { inlinePhoto: "images/ride-to-work.jpg" },
+      { inlinePhoto: "images/hope-center-move.jpg" },
+      { inlinePhoto: "images/training-day-crew.jpg" },
       "Outside of work, life has been good. A few weekends ago, I went to a botanical garden and waterfall with my friends. It was pleasant to be in nature, and we got poured on for about an hour at the waterfall, which made for a good memory and a wet car ride home.",
       { inlinePhoto: "images/aburi-botanical-gardens.jpg" },
       { inlinePhoto: "images/botanical-gardens-friends.jpg" },
@@ -236,18 +236,18 @@ const posts = [
       "If you are inclined to pray:"
     ],
     photos: [
-      { src: "images/training-day-crew.jpg", caption: "Training our Day Crew at the HOPE Center." },
-      { src: "images/hope-center-move.jpg", caption: "The HOPE Center, mid-move off the ship." },
       { src: "images/ride-to-work.jpg", caption: "Trying to find a ride to work." },
+      { src: "images/hope-center-move.jpg", caption: "The HOPE Center, mid-move off the ship." },
+      { src: "images/training-day-crew.jpg", caption: "Training our Day Crew at the HOPE Center." },
       { src: "images/aburi-botanical-gardens.jpg", caption: "Aburi Botanical Gardens." },
       { src: "images/botanical-gardens-friends.jpg", caption: "Some of my friends at the botanical gardens." },
-      { src: "images/waterfall-rain.jpg", caption: "Caught in the rain at the waterfall." },
+      { src: "images/waterfall-rain.jpg", caption: "Caught in the rain at the waterfall with B." },
       { src: "images/shai-hills-reserve.jpg", caption: "Shai Hills Reserve." },
       { src: "images/shai-hills-zebras.jpg", caption: "Zebras at Shai Hills." },
-      { src: "images/shai-hills-baboon.jpg", caption: "A baboon on the side of the road." },
+      { src: "images/shai-hills-baboon.jpg", caption: "Wild Baboons on the side of the road." },
       { src: "images/volta-river.jpg", caption: "The Volta River." },
-      { src: "images/volta-river-2.jpg", caption: "Out on the Volta River." },
-      { src: "images/cinnamon-buns.jpg", caption: "Linda, Line, and I enjoying cinnamon buns." }
+      { src: "images/volta-river-2.jpg", caption: "Locals on the Volta." },
+      { src: "images/cinnamon-buns.jpg", caption: "Linda, (Line), and I enjoying cinnamon buns." }
     ]
   }
 ];
